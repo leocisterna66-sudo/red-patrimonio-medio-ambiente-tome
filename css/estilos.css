@@ -1084,13 +1084,37 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: .12em;
   color: var(--ocre);
 }
-.agenda__cuerpo { align-self: center; }
+.agenda__cuerpo { align-self: center; display: flow-root; }
 .agenda__titulo {
   font-size: 1.25rem;
   color: var(--verde-profundo);
   margin: .5rem 0 .35rem;
 }
 .agenda__detalle { color: var(--tinta-suave); font-size: .95rem; margin: 0; }
+
+/* Afiche o invitación (opcional) */
+.agenda__afiche {
+  display: block;
+  margin: 0 0 .8rem 0;
+  max-width: 220px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  overflow: hidden;
+  transition: box-shadow var(--transicion);
+}
+.agenda__afiche:hover { box-shadow: 0 6px 20px rgba(26, 33, 29, .16); }
+.agenda__afiche img { display: block; width: 100%; height: auto; }
+
+/* Agenda sin actividades futuras */
+.agenda__vacia {
+  padding: 1.5rem;
+  background: var(--papel-blanco);
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--verde-vivo);
+  border-radius: var(--radio);
+  color: var(--tinta-suave);
+  font-style: italic;
+}
 
 
 /* ==========================================================================
@@ -1399,6 +1423,7 @@ button { font-family: inherit; cursor: pointer; }
 
   /* Agenda: badge de fecha a la izquierda */
   .agenda__item { grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; }
+  .agenda__afiche { float: right; max-width: 150px; margin: 0 0 .6rem 1.25rem; }
 
   .reja-registro { grid-template-columns: repeat(3, 1fr); }
 

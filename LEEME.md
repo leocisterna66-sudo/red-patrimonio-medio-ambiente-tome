@@ -8,10 +8,12 @@ dependiente de la Dirección de Educación de la Ilustre Municipalidad de Tomé.
 ```
 /
 ├── index.html            Página completa (una sola página con anclas)
-├── agregar-noticia.html  Asistente interno para publicar noticias
+├── agregar-noticia.html  Asistente interno: pestañas "Nueva noticia" y "Nueva actividad"
+├── SUBIR-CAMBIOS.bat     Publica los cambios a internet con doble clic
 ├── css/estilos.css       Hoja de estilos única
 ├── js/main.js            Navegación, filtros, notas desplegables, formulario
 ├── js/noticias.js        Lista de noticias de "Red en Acción"
+├── js/agenda.js          Lista de actividades de "La Agenda"
 ├── js/mapa.js            Mapa de la comuna y sus 25 puntos
 └── img/                  Imágenes del sitio (ver más abajo)
     └── originales/       Fotografías sin recortar, por si se necesita otro encuadre
@@ -183,11 +185,28 @@ La página se organiza en torno a las noticias. Hay dos secciones para eso:
 
   Para sumar una sesión al "Registro de sesiones", duplicar un
   `<li class="hito">` en `index.html`.
-- **La Agenda** (`<section id="agenda">`) — lo que viene. Actividades futuras
-  como tarjetas con fecha. Contenido referencial construido a partir del ritmo
-  anual de la Red; ajustar a la planificación efectiva. Para agregar una
-  actividad, duplicar un `<li class="agenda__item">` y editar mes, año, eje,
-  título y detalle.
+- **La Agenda** (`<section id="agenda">`) — lo que viene. Al igual que las
+  noticias, **las actividades ya no se escriben en el HTML**: viven en una lista
+  dentro de `js/agenda.js` y la página las arma sola, ordenadas por fecha (de la
+  más próxima a la más lejana) y **ocultando automáticamente las que ya pasaron**.
+
+  Se agregan con el mismo asistente: abrir **`agregar-noticia.html`** y usar la
+  pestaña **"Nueva actividad"**. Cada actividad puede llevar un **afiche o
+  invitación** opcional: se guarda la imagen en `img/` y se escribe su nombre en
+  el campo correspondiente; en la tarjeta aparece como miniatura que, al pulsarla,
+  abre el afiche completo. Si no hay afiche, se deja ese campo vacío.
+
+  A mano también se puede: copiar un bloque de ejemplo dentro de `js/agenda.js`
+  (el archivo tiene las instrucciones al comienzo).
+
+## Publicar los cambios (subir a internet)
+
+El sitio está publicado en GitHub Pages:
+**https://leocisterna66-sudo.github.io/red-patrimonio-medio-ambiente-tome/**
+
+Después de editar cualquier cosa (una noticia, una actividad, una foto, un dato),
+para que el cambio se vea en internet basta con **hacer doble clic en el archivo
+`SUBIR-CAMBIOS.bat`**, escribir una descripción breve y esperar 30–60 segundos.
 
 ## Origen de los contenidos
 

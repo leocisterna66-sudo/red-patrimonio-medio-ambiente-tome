@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agregar una noticia | Red de Patrimonio y Medio Ambiente</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<style>
+  /* Estilos propios de esta herramienta (no forma parte del sitio público) */
+  .ayuda { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+  .ayuda__aviso {
+    background: rgba(162, 84, 47, .1);
+    border-left: 3px solid var(--terracota);
+    border-radius: var(--radio);
+    padding: 1rem 1.25rem;
+    font-size: .95rem;
+    color: var(--tinta);
+    margin-bottom: 2rem;
+  }
+  .pasos { counter-reset: paso; display: grid; gap: .6rem; margin: 0 0 2rem; padding: 0; }
+  .pasos li { counter-increment: paso; position: relative; padding-left: 2.4rem; color: var(--tinta-suave); }
+  .pasos li::before {
+    content: counter(paso); position: absolute; left: 0; top: -.1rem;
+    width: 1.7rem; height: 1.7rem; display: flex; align-items: center; justify-content: center;
+    background: var(--verde-profundo); color: var(--papel); border-radius: 50%;
+    font-family: var(--fuente-ui); font-size: .9rem;
+  }
+  .campo-form { display: flex; flex-direction: column; margin-bottom: 1.25rem; }
+  .campo-form label {
+    font-family: var(--fuente-ui); font-size: .86rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--verde-profundo); margin-bottom: .35rem;
+  }
+  .campo-form small { color: var(--tinta-tenue); font-weight: 400; letter-spacing: 0; text-transform: none; }
+  .campo-form input, .campo-form textarea {
+    width: 100%; padding: .7rem .85rem; font-family: var(--fuente-cuerpo); font-size: 16px;
+    border: 1px solid var(--linea); border-radius: var(--radio); background: var(--papel-blanco);
+    color: var(--tinta); box-sizing: border-box;
+  }
+  .campo-form input:focus, .campo-form textarea:focus { outline: none; border-color: var(--verde-vivo); }
+  .campo-form textarea { resize: vertical; }
+  .dos-columnas { display: grid; gap: 0 1.5rem; }
+  @media (min-width: 640px) { .dos-columnas { grid-template-columns: 1fr 1fr; } }
+  .salida { position: relative; }
+  .salida textarea {
+    width: 100%; min-height: 260px; font-family: ui-monospace, "Consolas", monospace;
+    font-size: 13px; line-height: 1.5; padding: 1rem; border: 1px solid var(--linea);
+    border-radius: var(--radio); background: #1E2A24; color: #EAE6DA; box-sizing: border-box;
+  }
+  .barra-acciones { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin: 1rem 0 0; }
+  .aviso-copia { font-family: var(--fuente-ui); letter-spacing: .06em; color: var(--verde-vivo); font-size: .9rem; }
+  .previsualizacion { background: var(--papel-alt); border-radius: var(--radio); padding: 1.5rem 1.25rem; margin-top: 1rem; }
+  .previsualizacion .reja-notas { display: block; }
+  .previsualizacion .nota { max-width: 420px; }
+  hr.sep { border: none; border-top: 1px solid var(--linea); margin: 2.5rem 0; }
+</style>
+</head>
+<body>
+
+<div class="barra-superior">
+  <div class="contenedor barra-superior__interior">
+    <p class="barra-superior__dependencia">Herramienta interna &middot; Red de Patrimonio y Medio Ambiente</p>
+    <ul class="barra-superior__datos"><li><a href="index.html">Volver al sitio</a></li></ul>
+  </div>
+</div>
+
+<main class="ayuda">
+
+  <p class="etiqueta">Herramienta de edición</p>
+  <h1 class="titulo-seccion">Agregar una noticia</h1>
+  <p class="seccion__bajada" style="margin-bottom:2rem">
+    Llena este formulario con los datos de la publicación y, más abajo, obtendrás el bloque
+    listo para copiar y pegar en el archivo de noticias. Esta página es solo para uso interno:
+    no forma parte del sitio publicado.
+  </p>
+
+  <div class="ayuda__aviso">
+    <strong>Importante:</strong> esta herramienta no se conecta con Facebook. Debes escribir el
+    texto de la noticia y descargar la foto por tu cuenta. Es un asistente para que no tengas
+    que escribir código a mano.
+  </div>
+
+  <h2 class="titulo-menor">Cómo se usa</h2>
+  <ol class="pasos">
+    <li>Descarga la foto de la publicación y guárdala en la carpeta <strong>img/</strong> con un nombre corto y sin espacios (por ejemplo <strong>nota-04.jpg</strong>).</li>
+    <li>Llena el formulario de abajo. La vista previa te muestra cómo se verá la tarjeta.</li>
+    <li>Pulsa <strong>Copiar el bloque</strong>.</li>
+    <li>Abre el archivo <strong>js/noticias.js</strong> y pega el bloque justo después de <code>var NOTICIAS = [</code>, arriba de todo.</li>
+    <li>Guarda el archivo. La noticia aparecerá sola en la página, y la más reciente se mostrará destacada.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <form id="formulario">
+    <div class="dos-columnas">
+      <div class="campo-form">
+        <label for="fecha">Fecha de la actividad</label>
+        <input type="date" id="fecha" required>
+      </div>
+      <div class="campo-form">
+        <label for="lugar">Lugar <small>(aparece junto a la fecha)</small></label>
+        <input type="text" id="lugar" placeholder="Vivero Municipal" maxlength="60">
+      </div>
+    </div>
+
+    <div class="campo-form">
+      <label for="titulo">Título de la noticia</label>
+      <input type="text" id="titulo" placeholder="La Red realizó una nueva jornada de terreno" required>
+    </div>
+
+    <div class="campo-form">
+      <label for="resumen">Resumen <small>(una o dos frases; es lo que se ve en la tarjeta)</small></label>
+      <textarea id="resumen" rows="3" placeholder="Escribe aquí un resumen breve de la actividad."></textarea>
+    </div>
+
+    <div class="campo-form">
+      <label for="cuerpo">Texto completo <small>(se abre al pulsar &laquo;Leer la nota completa&raquo;. Separa los párrafos con una línea en blanco)</small></label>
+      <textarea id="cuerpo" rows="8" placeholder="Primer párrafo de la noticia.&#10;&#10;Segundo párrafo.&#10;&#10;Tercer párrafo."></textarea>
+    </div>
+
+    <div class="dos-columnas">
+      <div class="campo-form">
+        <label for="foto">Nombre del archivo de la foto</label>
+        <input type="text" id="foto" placeholder="nota-04.jpg">
+      </div>
+      <div class="campo-form">
+        <label for="alt">Descripción de la foto <small>(para lectores de pantalla)</small></label>
+        <input type="text" id="alt" placeholder="Docentes durante la salida de terreno" maxlength="140">
+      </div>
+    </div>
+  </form>
+
+  <h2 class="titulo-menor" style="margin-top:1.5rem">Vista previa</h2>
+  <div class="previsualizacion">
+    <div class="reja-notas" id="previa"></div>
+  </div>
+
+  <h2 class="titulo-menor" style="margin-top:2.5rem">Bloque para copiar</h2>
+  <p style="color:var(--tinta-suave); margin-bottom:1rem">Pega esto en <code>js/noticias.js</code>, justo después de <code>var NOTICIAS = [</code>.</p>
+  <div class="salida">
+    <textarea id="codigo" readonly spellcheck="false"></textarea>
+  </div>
+  <div class="barra-acciones">
+    <button type="button" class="boton boton--solido" id="copiar" style="width:auto">Copiar el bloque</button>
+    <span class="aviso-copia" id="avisoCopia" role="status" aria-live="polite"></span>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var campos = ['fecha', 'lugar', 'titulo', 'resumen', 'cuerpo', 'foto', 'alt'];
+  var el = {};
+  campos.forEach(function (c) { el[c] = document.getElementById(c); });
+
+  var previa = document.getElementById('previa');
+  var codigo = document.getElementById('codigo');
+  var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+  function escaparHtml(t) {
+    return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escaparJs(t) {
+    return t.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, ' ').trim();
+  }
+  function parrafos(texto) {
+    return texto.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean);
+  }
+  function fechaCorta(iso) {
+    var p = iso.split('-'); if (p.length !== 3) return iso;
+    return p[2] + '.' + p[1] + '.' + p[0];
+  }
+
+  function actualizar() {
+    var d = {
+      fecha: el.fecha.value.trim(),
+      lugar: el.lugar.value.trim(),
+      titulo: el.titulo.value.trim(),
+      resumen: el.resumen.value.trim(),
+      cuerpo: parrafos(el.cuerpo.value),
+      foto: el.foto.value.trim(),
+      alt: el.alt.value.trim()
+    };
+
+    // --- Vista previa ---
+    var html = '<article class="nota nota--destacada">';
+    html += '<div class="marco marco--bajo">';
+    if (d.foto) {
+      html += '<img src="img/' + escaparHtml(d.foto) + '" alt="' + escaparHtml(d.alt) + '">';
+    } else {
+      html += '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--tinta-tenue);font-family:var(--fuente-ui);letter-spacing:.1em">SIN FOTO</span>';
+    }
+    html += '</div>';
+    html += '<p class="nota__meta"><time>' + (d.fecha ? fechaCorta(d.fecha) : 'FECHA') + '</time>';
+    if (d.lugar) html += '<span class="nota__categoria">' + escaparHtml(d.lugar) + '</span>';
+    html += '</p>';
+    html += '<h3 class="nota__titulo">' + (escaparHtml(d.titulo) || 'Título de la noticia') + '</h3>';
+    if (d.resumen) html += '<p class="nota__extracto">' + escaparHtml(d.resumen) + '</p>';
+    if (d.cuerpo.length) html += '<button class="nota__enlace" type="button">Leer la nota completa</button>';
+    html += '</article>';
+    previa.innerHTML = html;
+
+    // --- Bloque de código ---
+    var cuerpoJs = d.cuerpo.length
+      ? '[\n      ' + d.cuerpo.map(function (p) { return "'" + escaparJs(p) + "'"; }).join(',\n      ') + '\n    ]'
+      : '[]';
+
+    var bloque =
+      '  {\n' +
+      "    fecha: '" + escaparJs(d.fecha) + "',\n" +
+      "    lugar: '" + escaparJs(d.lugar) + "',\n" +
+      "    titulo: '" + escaparJs(d.titulo) + "',\n" +
+      "    resumen: '" + escaparJs(d.resumen) + "',\n" +
+      "    cuerpo: " + cuerpoJs + ",\n" +
+      "    foto: '" + escaparJs(d.foto) + "',\n" +
+      "    alt: '" + escaparJs(d.alt) + "'\n" +
+      '  },';
+
+    codigo.value = bloque;
+  }
+
+  campos.forEach(function (c) { el[c].addEventListener('input', actualizar); });
+
+  document.getElementById('copiar').addEventListener('click', function () {
+    codigo.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(codigo.value).then(function () {
+        document.getElementById('avisoCopia').textContent = 'Copiado. Ahora pégalo en js/noticias.js';
+      });
+    } else {
+      document.getElementById('avisoCopia').textContent = ok ? 'Copiado. Ahora pégalo en js/noticias.js' : 'Selecciona el texto y cópialo con Ctrl+C';
+    }
+  });
+
+  actualizar();
+})();
+</script>
+</body>
+</html>

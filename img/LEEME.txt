@@ -1,0 +1,40 @@
+CARPETA DE IMÁGENES
+Red de Patrimonio y Medio Ambiente — Tomé
+
+Depositar aquí las fotografías del sitio con los siguientes nombres:
+
+  insignia.png          Ícono del navegador. Cuadrada, 64 x 64 px.
+  portada.jpg           Fotografía principal. Vertical, proporción 4:5.
+                        Sugerido: 1000 x 1250 px.
+  eje-patrimonio.jpg    Eje de patrimonio. Horizontal, proporción 16:10.
+                        Sugerido: 1200 x 750 px.
+  eje-ambiente.jpg      Eje de medio ambiente. Horizontal, proporción 16:10.
+                        Sugerido: 1200 x 750 px.
+  nota-01.jpg           Novedad 1. Horizontal, proporción 16:9.
+  nota-02.jpg           Novedad 2. Horizontal, proporción 16:9.
+  nota-03.jpg           Novedad 3. Horizontal, proporción 16:9.
+  registro-01.jpg ...   Registro fotográfico. Cuadradas, 800 x 800 px.
+
+RECOMENDACIONES
+
+- Guardar en formato JPG con calidad 80 por ciento. Evitar archivos de más
+  de 400 KB para no ralentizar la carga en conexiones móviles.
+- Preferir fotografías propias de las actividades de la Red antes que
+  imágenes de bancos de imágenes.
+- Toda fotografía en que aparezcan estudiantes requiere la autorización de
+  uso de imagen firmada por el apoderado, conforme a la normativa vigente.
+
+CÓMO INSERTARLAS EN LA PÁGINA
+
+En index.html, cada espacio de imagen es un bloque como este:
+
+  <div class="marco marco--medio" data-marco="Patrimonio"></div>
+
+Se reemplaza completo por:
+
+  <figure class="marco marco--medio">
+    <img src="img/eje-patrimonio.jpg" alt="Antigua fábrica textil de Tomé">
+  </figure>
+
+El texto del atributo alt describe la fotografía para personas que usan
+lectores de pantalla. Es obligatorio y no debe dejarse vacío.

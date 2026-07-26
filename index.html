@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de Patrimonio y Medio Ambiente | Dirección de Educación de Tomé</title>
+<meta name="description" content="Red de Patrimonio y Medio Ambiente de la Dirección de Educación de Tomé. Articula el trabajo de escuelas y liceos de la comuna en la protección del patrimonio local y la educación ambiental.">
+<meta name="author" content="Dirección de Educación, Ilustre Municipalidad de Tomé">
+<meta name="theme-color" content="#1E3F32">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Red de Patrimonio y Medio Ambiente de Tomé">
+<meta property="og:description" content="Trabajo articulado de los establecimientos educacionales de Tomé en patrimonio local y educación ambiental.">
+<meta property="og:locale" content="es_CL">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="icon" href="img/insignia.png" type="image/png">
+</head>
+<body>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido principal</a>
+
+<!-- ============================================================
+     BARRA INSTITUCIONAL SUPERIOR
+     ============================================================ -->
+<div class="barra-superior">
+  <div class="contenedor barra-superior__interior">
+    <p class="barra-superior__dependencia">Dirección de Educación &middot; Ilustre Municipalidad de Tomé</p>
+    <ul class="barra-superior__datos">
+      <li><a href="mailto:lorenna.patrimonio.tome@gmail.com">lorenna.patrimonio.tome@gmail.com</a></li>
+      <li class="ocultar-movil">Sesiones mensuales de la Red</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================
+     ENCABEZADO Y NAVEGACIÓN
+     ============================================================ -->
+<header class="encabezado" id="encabezado">
+  <div class="contenedor encabezado__interior">
+
+    <a class="marca" href="#inicio" aria-label="Red de Patrimonio y Medio Ambiente, ir al inicio">
+      <img class="marca__emblema" src="img/logo-emblema.png" alt="" width="60" height="56">
+      <span class="marca__texto">
+        <strong>Red de Patrimonio<br>y Medio Ambiente</strong>
+        <small>Comuna de Tomé, Región del Biobío</small>
+      </span>
+    </a>
+
+    <button class="nav-boton" id="navBoton" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="navPrincipal">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+      <ul class="nav__lista">
+        <li><a href="#inicio" class="nav__enlace">Inicio</a></li>
+        <li><a href="#red-en-accion" class="nav__enlace">Red en Acción</a></li>
+        <li><a href="#agenda" class="nav__enlace">Agenda</a></li>
+        <li><a href="#la-red" class="nav__enlace">La Red</a></li>
+        <li><a href="#ejes" class="nav__enlace">Ejes</a></li>
+        <li><a href="#mapa" class="nav__enlace">Mapa</a></li>
+        <li><a href="#establecimientos" class="nav__enlace">Establecimientos</a></li>
+        <li><a href="#recursos" class="nav__enlace">Recursos</a></li>
+        <li><a href="#contacto" class="nav__enlace nav__enlace--destacado">Contacto</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<main id="contenido">
+
+<!-- ============================================================
+     PORTADA
+     ============================================================ -->
+<section class="portada" id="inicio">
+
+  <!-- ------------------------------------------------------------------
+       CARRUSEL DE PORTADA
+       Para agregar una diapositiva, duplicar un bloque <article class="diapo">
+       y ajustar imagen, etiqueta, título y texto. El carrusel se adapta solo
+       a la cantidad de diapositivas que haya.
+       ------------------------------------------------------------------ -->
+  <div class="carrusel" id="carrusel" aria-roledescription="carrusel"
+       aria-label="Presentación de la Red de Patrimonio y Medio Ambiente">
+
+    <div class="carrusel__pista" id="carruselPista">
+
+      <article class="diapo diapo--activa" role="group" aria-roledescription="diapositiva" aria-label="1 de 3">
+        <img class="diapo__fondo" src="img/portada-01.jpg" width="1536" height="864"
+             alt="Docentes de la Red reunidos junto al antiguo vagón de ferrocarril del Barrio Explanada">
+        <div class="diapo__velo"></div>
+        <div class="contenedor diapo__contenido">
+          <p class="etiqueta etiqueta--clara">Red docente de la comuna de Tomé</p>
+          <h1 class="diapo__titulo">El territorio de Tomé<br>como <em>sala de clases</em></h1>
+          <p class="diapo__texto">
+            Escuelas y liceos articulados en torno a dos compromisos: reconocer y proteger el
+            patrimonio local, y formar comunidades capaces de cuidar su entorno natural.
+          </p>
+          <div class="diapo__acciones">
+            <a href="#la-red" class="boton boton--solido">Conocer la Red</a>
+            <a href="#mapa" class="boton boton--fantasma">Ver el mapa de la comuna</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="diapo" role="group" aria-roledescription="diapositiva" aria-label="2 de 3">
+        <img class="diapo__fondo" src="img/portada-02.jpg" width="809" height="455" loading="lazy"
+             alt="Docentes observando plantines de especies nativas en el Vivero Municipal de Tomé">
+        <div class="diapo__velo"></div>
+        <div class="contenedor diapo__contenido">
+          <p class="etiqueta etiqueta--clara">Eje de medio ambiente</p>
+          <h2 class="diapo__titulo">El vivero como <em>aula viva</em></h2>
+          <p class="diapo__texto">
+            Huertos escolares, hierbas medicinales y la germinación del Queule, especie
+            endémica entre Tomé y Talca, en el Vivero Municipal de la comuna.
+          </p>
+          <div class="diapo__acciones">
+            <a href="#ejes" class="boton boton--solido">Ejes de trabajo</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="diapo" role="group" aria-roledescription="diapositiva" aria-label="3 de 3">
+        <img class="diapo__fondo" src="img/portada-03.jpg" width="1536" height="864" loading="lazy"
+             alt="Fotografía histórica de la antigua Estación de Ferrocarriles de Tomé">
+        <div class="diapo__velo"></div>
+        <div class="contenedor diapo__contenido">
+          <p class="etiqueta etiqueta--clara">Eje de patrimonio</p>
+          <h2 class="diapo__titulo">La memoria del <em>ferrocarril</em></h2>
+          <p class="diapo__texto">
+            La desaparecida Estación de Ferrocarriles, el Muelle Hinrichsen y el Vagón del
+            Barrio Explanada estructuran la ruta patrimonial escolar de la comuna.
+          </p>
+          <div class="diapo__acciones">
+            <a href="#red-en-accion" class="boton boton--solido">Ver Red en Acción</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <button class="carrusel__flecha carrusel__flecha--previa" id="carruselPrevio"
+            type="button" aria-label="Diapositiva anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+    </button>
+    <button class="carrusel__flecha carrusel__flecha--siguiente" id="carruselSiguiente"
+            type="button" aria-label="Diapositiva siguiente">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+    </button>
+
+    <div class="carrusel__puntos" id="carruselPuntos" role="tablist" aria-label="Elegir diapositiva"></div>
+
+  </div>
+
+  <!-- Banda de datos institucionales -->
+  <div class="banda-datos">
+    <div class="contenedor banda-datos__reja">
+      <div class="dato">
+        <span class="dato__cifra">11</span>
+        <span class="dato__glosa">Escuelas y liceos representados en la Red</span>
+      </div>
+      <div class="dato">
+        <span class="dato__cifra">02</span>
+        <span class="dato__glosa">Ejes formativos: patrimonio y medio ambiente</span>
+      </div>
+      <div class="dato">
+        <span class="dato__cifra">01</span>
+        <span class="dato__glosa">Reunión de trabajo cada mes del año escolar</span>
+      </div>
+      <div class="dato">
+        <span class="dato__cifra">01</span>
+        <span class="dato__glosa">Asignatura comunal de Patrimonio y Medio Ambiente</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RED EN ACCIÓN — noticias y acontecimientos realizados
+     ============================================================ -->
+<section class="seccion" id="red-en-accion">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta">Lo que ha hecho la Red</p>
+      <h2 class="titulo-seccion">Red en Acción</h2>
+      <p class="seccion__bajada">
+        Noticias y acontecimientos de las escuelas y liceos de la comuna: las jornadas,
+        salidas de terreno y encuentros que la Red ha realizado.
+      </p>
+    </header>
+
+    <div class="reja-notas" id="rejaNoticias">
+      <!-- Las noticias se cargan solas desde js/noticias.js -->
+    </div>
+
+    <!-- Registro de sesiones realizadas -->
+    <div class="hitos-bloque">
+      <h3 class="titulo-menor">Registro de sesiones</h3>
+      <ol class="hitos">
+        <li class="hito">
+          <span class="hito__fecha">Mayo 2026</span>
+          <div class="hito__cuerpo">
+            <p class="hito__sede">Vivero Municipal de Tomé
+              <span class="marca-eje marca-eje--ambiente">Medio ambiente</span></p>
+            <p class="hito__detalle">Capacitación en huertos escolares y hierbas medicinales,
+            germinación del Queule, valor del bosque nativo e inducción sobre cambio climático.</p>
+          </div>
+        </li>
+        <li class="hito">
+          <span class="hito__fecha">Septiembre 2025</span>
+          <div class="hito__cuerpo">
+            <p class="hito__sede">El Vagón, Círculo de Bellas Artes, Barrio Explanada
+              <span class="marca-eje marca-eje--patrimonio">Patrimonio</span></p>
+            <p class="hito__detalle">Patrimonio industrial en torno a la desaparecida Estación
+            de Ferrocarriles y patrimonio inmaterial del Círculo de Bellas Artes.</p>
+          </div>
+        </li>
+        <li class="hito">
+          <span class="hito__fecha">Julio 2025</span>
+          <div class="hito__cuerpo">
+            <p class="hito__sede">Liceo República del Ecuador
+              <span class="marca-eje marca-eje--ambos">Ambos ejes</span></p>
+            <p class="hito__detalle">Balance del Mes de los Patrimonios, políticas de educación
+            patrimonial y ambiental, y revisión de guías de enseñanza-aprendizaje.</p>
+          </div>
+        </li>
+        <li class="hito">
+          <span class="hito__fecha">Abril 2025</span>
+          <div class="hito__cuerpo">
+            <p class="hito__sede">Centro Cultural de Tomé
+              <span class="marca-eje marca-eje--ambiente">Medio ambiente</span></p>
+            <p class="hito__detalle">Lanzamiento del libro <em>Queule, la gran odisea
+            viviente</em>, con entrega de ejemplares a las bibliotecas CRA de los
+            establecimientos.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="registro">
+      <h3 class="titulo-menor">Registro fotográfico</h3>
+      <p class="registro__intro">
+        Archivo visual del trabajo desarrollado por los establecimientos de la comuna.
+      </p>
+      <div class="reja-registro">
+        <div class="marco marco--cuadro">
+          <img src="img/registro-01.jpg" width="720" height="720" loading="lazy"
+               alt="Sesión de trabajo de la Red en el interior del vagón del Círculo de Bellas Artes">
+        </div>
+        <div class="marco marco--cuadro">
+          <img src="img/registro-02.jpg" width="800" height="800" loading="lazy"
+               alt="Representantes del Círculo de Bellas Artes recibiendo a la Red en su sede">
+        </div>
+        <div class="marco marco--cuadro">
+          <img src="img/registro-03.jpg" width="800" height="800" loading="lazy"
+               alt="Docentes de la Red trabajando en torno a la mesa durante la sesión mensual">
+        </div>
+        <div class="marco marco--cuadro">
+          <img src="img/registro-04.jpg" width="800" height="800" loading="lazy"
+               alt="Docente exponiendo durante la sesión de la Red en el vagón">
+        </div>
+        <div class="marco marco--cuadro">
+          <img src="img/registro-05.jpg" width="649" height="649" loading="lazy"
+               alt="Docentes de la Red durante el recorrido por el Vivero Municipal">
+        </div>
+        <div class="marco marco--cuadro">
+          <img src="img/registro-06.jpg" width="649" height="649" loading="lazy"
+               alt="Huerto elevado utilizado en la capacitación sobre huertos escolares">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     LA AGENDA — actividades futuras
+     ============================================================ -->
+<section class="seccion seccion--papel" id="agenda">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta">Lo que viene</p>
+      <h2 class="titulo-seccion">La Agenda</h2>
+      <p class="seccion__bajada">
+        Próximas actividades de la Red. Las fechas exactas se confirman a cada establecimiento
+        a través de su docente representante.
+      </p>
+    </header>
+
+    <ol class="agenda">
+
+      <li class="agenda__item">
+        <div class="agenda__fecha">
+          <span class="agenda__mes">Agosto</span>
+          <span class="agenda__anio">2026</span>
+        </div>
+        <div class="agenda__cuerpo">
+          <span class="marca-eje marca-eje--ambos">Ambos ejes</span>
+          <h3 class="agenda__titulo">Certificación ambiental y balance de la asignatura</h3>
+          <p class="agenda__detalle">
+            Trabajo en torno al Sistema Nacional de Certificación Ambiental de Establecimientos
+            (SINCAE) y análisis FODA del primer semestre de la asignatura de Patrimonio y Medio
+            Ambiente.
+          </p>
+        </div>
+      </li>
+
+      <li class="agenda__item">
+        <div class="agenda__fecha">
+          <span class="agenda__mes">Sep&ndash;Oct</span>
+          <span class="agenda__anio">2026</span>
+        </div>
+        <div class="agenda__cuerpo">
+          <span class="marca-eje marca-eje--patrimonio">Patrimonio</span>
+          <h3 class="agenda__titulo">Sesiones en sedes patrimoniales y salidas de terreno</h3>
+          <p class="agenda__detalle">
+            Reuniones de la Red en lugares patrimoniales de la comuna y salidas de terreno con
+            estudiantes de los establecimientos.
+          </p>
+        </div>
+      </li>
+
+      <li class="agenda__item">
+        <div class="agenda__fecha">
+          <span class="agenda__mes">Noviembre</span>
+          <span class="agenda__anio">2026</span>
+        </div>
+        <div class="agenda__cuerpo">
+          <span class="marca-eje marca-eje--ambiente">Medio ambiente</span>
+          <h3 class="agenda__titulo">Jornada de educación ambiental en el Vivero Municipal</h3>
+          <p class="agenda__detalle">
+            Trabajo en el Vivero Municipal y actividades de educación ambiental con las
+            comunidades educativas.
+          </p>
+        </div>
+      </li>
+
+      <li class="agenda__item">
+        <div class="agenda__fecha">
+          <span class="agenda__mes">Diciembre</span>
+          <span class="agenda__anio">2026</span>
+        </div>
+        <div class="agenda__cuerpo">
+          <span class="marca-eje marca-eje--ambos">Ambos ejes</span>
+          <h3 class="agenda__titulo">Evaluación del año y proyección 2027</h3>
+          <p class="agenda__detalle">
+            Sesión de cierre para evaluar el trabajo del año y proyectar la planificación del
+            período siguiente.
+          </p>
+        </div>
+      </li>
+
+    </ol>
+
+    <p class="nota-pie">
+      Agenda referencial construida a partir del ritmo anual de trabajo de la Red. Debe
+      ajustarse a la planificación efectiva que acuerden los establecimientos.
+    </p>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     LA RED
+     ============================================================ -->
+<section class="seccion" id="la-red">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta">Quiénes somos</p>
+      <h2 class="titulo-seccion">Una red de docentes que trabaja el territorio</h2>
+    </header>
+
+    <div class="reja-articulo">
+      <div class="articulo__cuerpo">
+        <p class="parrafo-guia">
+          La Red de Patrimonio y Medio Ambiente reúne a docentes representantes de
+          las escuelas y liceos de Tomé para fortalecer la educación patrimonial y ambiental
+          que se implementa en la comuna, a través de la asignatura de Patrimonio y Medio
+          Ambiente y de los talleres de esas mismas áreas.
+        </p>
+        <p>
+          La Red es coordinada por la Coordinación de Patrimonio y Medio Ambiente del
+          Departamento Técnico Pedagógico de la Dirección de Educación Municipal, y su
+          trabajo se enmarca en la política del Ministerio de Educación en estas materias.
+        </p>
+        <p>
+          Su fundamento es una constatación compartida: Tomé posee un patrimonio industrial,
+          artístico y natural de valor excepcional —la antigua Estación de Ferrocarriles, el
+          Muelle Hinrichsen, el Vagón del Círculo de Bellas Artes, el bosque nativo y el
+          Queule, especie endémica de la zona— que rara vez ingresa de manera sistemática al
+          trabajo escolar. La Red existe para revertir esa distancia entre el aula y el
+          territorio.
+        </p>
+        <p>
+          El trabajo se organiza en reuniones mensuales que combinan capacitación y
+          coordinación. Cada sesión se realiza en un lugar distinto de la comuna —un
+          establecimiento, el Vivero Municipal, una sede patrimonial— de modo que el espacio
+          mismo sea contenido de aprendizaje. Allí los representantes comparten experiencias
+          pedagógicas, revisan guías de enseñanza y proyectan las actividades comunales.
+        </p>
+
+        <blockquote class="cita">
+          <p>
+            Un estudiante que reconoce el valor de su barrio, de su quebrada y de la historia
+            de quienes lo habitaron, difícilmente lo abandonará a la indiferencia.
+          </p>
+        </blockquote>
+      </div>
+
+      <aside class="ficha-lateral">
+        <h3 class="ficha-lateral__titulo">Ficha de la Red</h3>
+        <dl class="ficha-lista">
+          <dt>Denominación</dt>
+          <dd>Red de Patrimonio y Medio Ambiente</dd>
+          <dt>Dependencia</dt>
+          <dd>Coordinación de Patrimonio y Medio Ambiente, Departamento Técnico Pedagógico,
+          Dirección de Educación Municipal de Tomé</dd>
+          <dt>Coordinación</dt>
+          <dd>Lorenna Arce, coordinadora de Patrimonio y Medio Ambiente</dd>
+          <dt>Ámbito territorial</dt>
+          <dd>Comuna de Tomé, Provincia de Concepción, Región del Biobío</dd>
+          <dt>Integrantes</dt>
+          <dd>Docentes representantes de escuelas y liceos municipales de enseñanza básica y media</dd>
+          <dt>Periodicidad</dt>
+          <dd>Reunión mensual durante el año escolar, con sede rotativa en la comuna</dd>
+          <dt>Marco de trabajo</dt>
+          <dd>Política del Ministerio de Educación en Patrimonio y Medio Ambiente. Asignatura
+          comunal de Patrimonio y Medio Ambiente y talleres de las mismas áreas</dd>
+        </dl>
+      </aside>
+    </div>
+
+    <!-- Propósito y objetivos -->
+    <div class="bloque-objetivos">
+      <h3 class="titulo-menor">Objetivos de la Red</h3>
+      <ol class="lista-objetivos">
+        <li>
+          <h4>Visibilizar el trabajo de los establecimientos</h4>
+          <p>Documentar y difundir las experiencias pedagógicas que las escuelas y liceos
+          desarrollan en patrimonio y medio ambiente, dándoles existencia pública comunal.</p>
+        </li>
+        <li>
+          <h4>Articular acciones entre establecimientos</h4>
+          <p>Coordinar iniciativas conjuntas que superen el alcance de una sola escuela:
+          conmemoraciones, jornadas comunales, muestras y campañas.</p>
+        </li>
+        <li>
+          <h4>Fortalecer la formación docente</h4>
+          <p>Generar instancias de intercambio profesional y capacitación específica en
+          educación patrimonial y ambiental para los representantes de cada establecimiento.</p>
+        </li>
+        <li>
+          <h4>Vincular la escuela con el territorio</h4>
+          <p>Establecer alianzas con organizaciones locales, museos, agrupaciones vecinales
+          e instituciones que custodian el patrimonio y el entorno natural de la comuna.</p>
+        </li>
+        <li>
+          <h4>Producir material pedagógico propio</h4>
+          <p>Elaborar recursos didácticos contextualizados a la realidad de Tomé, disponibles
+          para el conjunto de los establecimientos de la comuna.</p>
+        </li>
+        <li>
+          <h4>Registrar la memoria del trabajo realizado</h4>
+          <p>Constituir un archivo comunal de las actividades, con registro fotográfico,
+          documental y testimonial que permanezca disponible en el tiempo.</p>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     EJES DE TRABAJO
+     ============================================================ -->
+<section class="seccion seccion--oscura" id="ejes">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta etiqueta--clara">Líneas formativas</p>
+      <h2 class="titulo-seccion">Dos ejes, un mismo territorio</h2>
+      <p class="seccion__bajada">
+        La Red no separa el patrimonio del medio ambiente. Entiende que el paisaje de Tomé
+        es simultáneamente natural y construido, y que su cuidado exige una mirada integrada.
+      </p>
+    </header>
+
+    <div class="dipticos">
+
+      <article class="diptico">
+        <p class="diptico__numero">Eje 01</p>
+        <h3 class="diptico__titulo">Patrimonio local</h3>
+        <div class="marco marco--medio marco--claro">
+          <img src="img/eje-patrimonio.jpg" width="1400" height="875" loading="lazy"
+               alt="Fotografía histórica de la antigua Estación de Ferrocarriles de Tomé, con locomotoras y vagones">
+        </div>
+        <p class="diptico__texto">
+          Patrimonio material, inmaterial e industrial de Tomé abordado como herencia viva.
+          El trabajo se apoya en guías de enseñanza-aprendizaje elaboradas por la Red y en
+          rutas patrimoniales que convierten el propio territorio en material didáctico.
+        </p>
+        <ul class="lista-marcada">
+          <li>Patrimonio industrial: el Vagón y la desaparecida Estación de Ferrocarriles</li>
+          <li>Ruta patrimonial escolar Muelle Hinrichsen &ndash; Vagón</li>
+          <li>Guanehue y los antiguos habitantes del territorio</li>
+          <li>Patrimonio inmaterial: el Círculo de Bellas Artes y la tradición artística local</li>
+          <li>Rutas urbanas y visita a monumentos históricos nacionales</li>
+          <li>Concurso de relatos, fanzines y valoración de objetos escolares</li>
+        </ul>
+      </article>
+
+      <article class="diptico">
+        <p class="diptico__numero">Eje 02</p>
+        <h3 class="diptico__titulo">Medio ambiente</h3>
+        <div class="marco marco--medio marco--claro">
+          <img src="img/eje-ambiente.jpg" width="809" height="506" loading="lazy"
+               alt="Docentes observando plantines de especies nativas en el invernadero del Vivero Municipal">
+        </div>
+        <p class="diptico__texto">
+          Educación ambiental situada en los ecosistemas propios de la comuna, con el Vivero
+          Municipal de Tomé como espacio de aprendizaje práctico y vivencial, y el Queule
+          como especie emblema del patrimonio natural local.
+        </p>
+        <ul class="lista-marcada">
+          <li>El Queule (<em>Gomortega keule</em>), especie endémica entre Tomé y Talca</li>
+          <li>El bosque nativo como regulador de ecosistemas, temperatura y humedad</li>
+          <li>Huertos escolares como metodología basada en el método científico</li>
+          <li>Saberes ancestrales y hierbas medicinales: menta, toronjil, salvia, lavanda y ruda</li>
+          <li>Cambio climático, reciclaje y prácticas sustentables</li>
+          <li>Sistema Nacional de Certificación Ambiental de Establecimientos (SINCAE)</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MAPA DE LA COMUNA
+     ============================================================ -->
+<section class="seccion" id="mapa">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta">Cartografía comunal</p>
+      <h2 class="titulo-seccion">El territorio de la Red</h2>
+      <p class="seccion__bajada">
+        Los establecimientos que integran la Red y los puntos patrimoniales y ambientales
+        que estructuran su trabajo, situados en la comuna de Tomé.
+      </p>
+    </header>
+
+    <div class="filtros" role="group" aria-label="Filtrar puntos del mapa por categoría">
+      <button class="filtro filtro-mapa filtro--activo" data-categoria="todos">Todos</button>
+      <button class="filtro filtro-mapa" data-categoria="patrimonio">Patrimonio</button>
+      <button class="filtro filtro-mapa" data-categoria="ambiente">Medio ambiente</button>
+      <button class="filtro filtro-mapa" data-categoria="establecimiento">Establecimientos</button>
+      <button class="filtro filtro-mapa" data-categoria="localidad">Localidades</button>
+    </div>
+
+    <div class="mapa">
+      <div id="mapaComuna" class="mapa__lienzo" role="application"
+           aria-label="Mapa interactivo de la comuna de Tomé con los puntos de trabajo de la Red"></div>
+
+      <ul class="mapa__leyenda">
+        <li><span class="mapa__marca" style="background:#A2542F"></span>Patrimonio</li>
+        <li><span class="mapa__marca" style="background:#2E9E68"></span>Medio ambiente</li>
+        <li><span class="mapa__marca" style="background:#1E3F32"></span>Establecimientos de la Red</li>
+        <li><span class="mapa__marca" style="background:#8A928C"></span>Localidades</li>
+      </ul>
+    </div>
+
+    <p class="nota-pie">
+      Las coordenadas de los establecimientos y localidades provienen de OpenStreetMap. Los
+      puntos marcados como <em>ubicación aproximada</em> —el Vagón, la ex Estación de
+      Ferrocarriles, el Muelle Hinrichsen, el Vivero Municipal y la caleta de Cocholgüe— deben
+      precisarse en terreno. Para editarlos, ver el comienzo del archivo
+      <code>js/mapa.js</code>.
+    </p>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     ESTABLECIMIENTOS
+     ============================================================ -->
+<section class="seccion seccion--blanco" id="establecimientos">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta">Catastro de la Red</p>
+      <h2 class="titulo-seccion">Establecimientos que integran la Red</h2>
+      <p class="seccion__bajada">
+        Cada establecimiento participa mediante un docente representante, responsable de
+        articular el trabajo de la Red con su comunidad educativa.
+      </p>
+    </header>
+
+    <!-- Filtro por nivel de enseñanza -->
+    <div class="filtros" role="group" aria-label="Filtrar establecimientos por nivel de enseñanza">
+      <button class="filtro filtro--activo" data-sector="todos">Todos</button>
+      <button class="filtro" data-sector="basica">Escuelas</button>
+      <button class="filtro" data-sector="media">Liceos</button>
+    </div>
+
+    <!-- ------------------------------------------------------------------
+         PARA COMPLETAR: el nombre del docente representante de cada
+         establecimiento. Para agregar uno nuevo, duplicar un bloque
+         <article class="ficha"> y ajustar el número correlativo, el nombre y
+         el atributo data-sector (basica | media).
+         ------------------------------------------------------------------ -->
+    <div class="reja-fichas" id="rejaFichas">
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">01</p>
+        <h3 class="ficha__nombre">Escuela Menque</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">02</p>
+        <h3 class="ficha__nombre">Escuela Caleta del Medio</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">03</p>
+        <h3 class="ficha__nombre">Escuela Vegas de Coliumo</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">04</p>
+        <h3 class="ficha__nombre">Escuela Cerro Estanque</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">05</p>
+        <h3 class="ficha__nombre">Escuela Ignacio Serrano Montaner</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">06</p>
+        <h3 class="ficha__nombre">Escuela Cocholgüe</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">07</p>
+        <h3 class="ficha__nombre">Escuela Millahue</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="basica">
+        <p class="ficha__numero">08</p>
+        <h3 class="ficha__nombre">Escuela Artística de Panamá</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza básica &middot; Modalidad artística</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="media">
+        <p class="ficha__numero">09</p>
+        <h3 class="ficha__nombre">Liceo República del Ecuador</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza media</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="media">
+        <p class="ficha__numero">10</p>
+        <h3 class="ficha__nombre">Liceo Comercial</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza media &middot; Técnico profesional</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+      <article class="ficha" data-sector="media">
+        <p class="ficha__numero">11</p>
+        <h3 class="ficha__nombre">Liceo Vicente Palacios</h3>
+        <dl class="ficha__datos">
+          <dt>Nivel</dt><dd>Enseñanza media</dd>
+          <dt>Docente representante</dt><dd>Por confirmar</dd>
+        </dl>
+      </article>
+
+    </div>
+
+    <p class="nota-pie">
+      Catastro elaborado a partir del registro de participación de la reunión de mayo. La
+      Red se encuentra abierta a la incorporación de nuevos establecimientos, que pueden
+      comunicarse a través del <a href="#contacto">formulario de contacto</a>.
+    </p>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     RECURSOS
+     ============================================================ -->
+<section class="seccion seccion--papel" id="recursos">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta">Documentación</p>
+      <h2 class="titulo-seccion">Recursos para los establecimientos</h2>
+      <p class="seccion__bajada">
+        Material de trabajo elaborado por la Red y enlaces de referencia para el desarrollo
+        de actividades en aula.
+      </p>
+    </header>
+
+    <div class="reja-recursos">
+
+      <div class="grupo-recursos">
+        <h3 class="grupo-recursos__titulo">Recursos interactivos</h3>
+        <ul class="lista-recursos">
+          <li>
+            <a href="https://leocisterna66-sudo.github.io/patrimonio-tomecino-california/" target="_blank" rel="noopener">
+              <span class="recurso__nombre">Juego de cartas del Patrimonio Tomecino</span>
+              <span class="recurso__tipo">Juego</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://leocisterna66-sudo.github.io/coloreando-tome/" target="_blank" rel="noopener">
+              <span class="recurso__nombre">Coloreando Tomé: libro para pintar el patrimonio</span>
+              <span class="recurso__tipo">Colorear</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grupo-recursos">
+        <h3 class="grupo-recursos__titulo">Documentos de la Red</h3>
+        <ul class="lista-recursos">
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Plan Anual de Trabajo de la Red</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Acta de constitución y reglamento interno</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Guía de salidas pedagógicas al territorio</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Actas de sesiones mensuales</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grupo-recursos">
+        <h3 class="grupo-recursos__titulo">Material pedagógico</h3>
+        <ul class="lista-recursos">
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Cuadernillo de patrimonio industrial de Tomé</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Fichas de especies nativas de la comuna</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Protocolo de entrevistas de memoria oral</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Propuestas de actividades por nivel educativo</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grupo-recursos">
+        <h3 class="grupo-recursos__titulo">Enlaces institucionales</h3>
+        <ul class="lista-recursos">
+          <li>
+            <a href="https://demtome.cl" target="_blank" rel="noopener">
+              <span class="recurso__nombre">Dirección de Educación Municipal de Tomé</span>
+              <span class="recurso__tipo">Sitio</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/educaciontome" target="_blank" rel="noopener">
+              <span class="recurso__nombre">DEM Tomé en Facebook</span>
+              <span class="recurso__tipo">Redes</span>
+            </a>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Servicio Nacional del Patrimonio Cultural</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Ministerio del Medio Ambiente</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+          <li>
+            <div class="recurso recurso--pendiente">
+              <span class="recurso__nombre">Sistema Nacional de Certificación Ambiental de Establecimientos</span>
+              <span class="recurso__tipo">Próximamente</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACTO
+     ============================================================ -->
+<section class="seccion seccion--oscura" id="contacto">
+  <div class="contenedor">
+
+    <header class="seccion__encabezado">
+      <p class="etiqueta etiqueta--clara">Comunicación</p>
+      <h2 class="titulo-seccion">Contacto e incorporación a la Red</h2>
+    </header>
+
+    <div class="reja-contacto">
+
+      <form class="formulario" id="formulario" novalidate>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="name">
+          </div>
+          <div class="campo">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label for="establecimiento">Establecimiento</label>
+            <input type="text" id="establecimiento" name="establecimiento" autocomplete="organization">
+          </div>
+          <div class="campo">
+            <label for="motivo">Motivo del mensaje</label>
+            <select id="motivo" name="motivo" required>
+              <option value="">Seleccione una opción</option>
+              <option>Incorporación de un establecimiento a la Red</option>
+              <option>Consulta sobre actividades</option>
+              <option>Envío de material o registro fotográfico</option>
+              <option>Propuesta de colaboración</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+        </div>
+
+        <button type="submit" class="boton boton--solido boton--claro">Enviar mensaje</button>
+        <p class="formulario__aviso" id="formularioAviso" role="status" aria-live="polite"></p>
+      </form>
+
+      <aside class="datos-contacto">
+        <h3 class="datos-contacto__titulo">Coordinación de la Red</h3>
+        <dl class="ficha-lista ficha-lista--clara">
+          <dt>Coordinadora</dt>
+          <dd>Lorenna Arce, Coordinación de Patrimonio y Medio Ambiente, Departamento
+          Técnico Pedagógico</dd>
+          <dt>Dirección de Educación Municipal</dt>
+          <dd>Ignacio Serrano 1055, Tomé, Región del Biobío</dd>
+          <dt>Correo electrónico</dt>
+          <dd><a href="mailto:lorenna.patrimonio.tome@gmail.com">lorenna.patrimonio.tome@gmail.com</a></dd>
+          <dt>Teléfono</dt>
+          <dd>Ingresar número de contacto</dd>
+          <dt>Sitio institucional</dt>
+          <dd><a href="https://demtome.cl" target="_blank" rel="noopener">demtome.cl</a></dd>
+          <dt>Horario de atención</dt>
+          <dd>Lunes a viernes, 08:30 a 17:00 horas</dd>
+        </dl>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     PIE DE PÁGINA
+     ============================================================ -->
+<footer class="pie">
+  <div class="contenedor pie__reja">
+
+    <div class="pie__institucion">
+      <p class="pie__nombre">Red de Patrimonio<br>y Medio Ambiente</p>
+      <p class="pie__dependencia">Dirección de Educación<br>Ilustre Municipalidad de Tomé</p>
+    </div>
+
+    <div class="pie__columna">
+      <h2 class="pie__titulo">Contacto</h2>
+      <ul class="pie__lista">
+        <li>Ignacio Serrano 1055, Tomé</li>
+        <li>Región del Biobío, Chile</li>
+        <li><a href="mailto:lorenna.patrimonio.tome@gmail.com">lorenna.patrimonio.tome@gmail.com</a></li>
+        <li><a href="https://demtome.cl" target="_blank" rel="noopener">demtome.cl</a></li>
+        <li>Lunes a viernes, 08:30 a 17:00 horas</li>
+      </ul>
+    </div>
+
+    <div class="pie__columna">
+      <h2 class="pie__titulo">Secciones</h2>
+      <ul class="pie__lista">
+        <li><a href="#la-red">La Red</a></li>
+        <li><a href="#red-en-accion">Red en Acción</a></li>
+        <li><a href="#ejes">Ejes de trabajo</a></li>
+        <li><a href="#establecimientos">Establecimientos</a></li>
+        <li><a href="#agenda">Agenda</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+      </ul>
+    </div>
+
+    <div class="pie__columna">
+      <h2 class="pie__titulo">Redes</h2>
+      <ul class="pie__redes">
+        <li>
+          <a href="https://www.facebook.com/educaciontome" aria-label="Facebook de la Dirección de Educación de Tomé" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H16.7V3.6c-.3 0-1.3-.13-2.45-.13-2.43 0-4.1 1.48-4.1 4.2v2.34H7.44V13h2.71v8z"/>
+            </svg>
+          </a>
+        </li>
+        <!-- Cuando exista cuenta de Instagram, duplicar este bloque con su enlace real.
+             Se retiró el ícono porque un enlace vacío devuelve al inicio de la página. -->
+        <li>
+          <a href="mailto:lorenna.patrimonio.tome@gmail.com" aria-label="Escribir por correo electrónico">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="3" y="5" width="18" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+              <path d="M3.6 6.2 12 13l8.4-6.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="pie__legal">
+    <div class="contenedor pie__legal-interior">
+      <p>Red de Patrimonio y Medio Ambiente &middot; Dirección de Educación de Tomé</p>
+      <p>&copy; <span id="anio">2026</span> Tomé, Región del Biobío, Chile</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/noticias.js"></script>
+<script src="js/main.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<script src="js/mapa.js" defer></script>
+</body>
+</html>

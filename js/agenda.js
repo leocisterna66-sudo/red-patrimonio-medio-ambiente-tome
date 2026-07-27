@@ -26,7 +26,7 @@
                     Si solo sabes el mes, usa el día 01 (ej. '2026-09-01').
      etiquetaFecha  Texto que se ve en el recuadro de fecha. Si lo dejas vacío,
                     se usa el mes de la fecha. Sirve para rangos: 'Sep–Oct'.
-     eje            'patrimonio' | 'ambiente' | 'ambos'
+     eje            'patrimonio' | 'ambiente' | 'ciudadania' | 'ambos'
      titulo         Título de la actividad.
      detalle        Descripción breve.
      imagen         (Opcional) Afiche o invitación: nombre del archivo en img/.
@@ -94,7 +94,8 @@ var ACTIVIDADES = [
   var EJES = {
     patrimonio: { clase: 'marca-eje--patrimonio', texto: 'Patrimonio' },
     ambiente:   { clase: 'marca-eje--ambiente',   texto: 'Medio ambiente' },
-    ambos:      { clase: 'marca-eje--ambos',      texto: 'Ambos ejes' }
+    ciudadania: { clase: 'marca-eje--ciudadania', texto: 'Formación ciudadana' },
+    ambos:      { clase: 'marca-eje--ambos',      texto: 'Varios ejes' }
   };
 
   // Fecha de hoy en formato AAAA-MM-DD (hora local)

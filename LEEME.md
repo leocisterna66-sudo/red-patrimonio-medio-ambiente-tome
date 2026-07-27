@@ -14,6 +14,7 @@ dependiente de la Dirección de Educación de la Ilustre Municipalidad de Tomé.
 ├── js/main.js            Navegación, filtros, notas desplegables, formulario
 ├── js/noticias.js        Lista de noticias de "Red en Acción"
 ├── js/agenda.js          Lista de actividades de "La Agenda"
+├── js/establecimientos.js  Lista de establecimientos de la comuna
 ├── js/mapa.js            Mapa de la comuna y sus 25 puntos
 └── img/                  Imágenes del sitio (ver más abajo)
     └── originales/       Fotografías sin recortar, por si se necesita otro encuadre
@@ -94,22 +95,26 @@ El sitio es responsivo con enfoque *mobile-first*. Puntos de quiebre en
 
 ## Pendientes de completar
 
-### 1. Docentes representantes
-Los once establecimientos están cargados con datos reales, tomados del registro
-de participación publicado por el DEM Tomé: ocho escuelas (Menque, Caleta del
-Medio, Vegas de Coliumo, Cerro Estanque, Ignacio Serrano Montaner, Cocholgüe,
-Millahue y Artística de Panamá) y tres liceos (República del Ecuador, Comercial
-y Vicente Palacios).
+### 1. Establecimientos: completar la nómina, docentes e insignias
+La Red reúne a **28 establecimientos municipales** de la comuna. La lista de
+establecimientos ahora vive en **`js/establecimientos.js`** y la página arma las
+tarjetas solas (con filtro Escuelas / Liceos).
 
-Lo que falta es el **nombre del docente representante** de cada uno: todos dicen
-"Por confirmar". Están en `index.html`, sección `<section id="establecimientos">`.
+Por ahora están cargados **13 establecimientos verificados** en las reuniones de
+la Red. **Falta agregar el resto hasta completar los 28.** Para cada uno se puede
+poner: la **insignia** (logo), el **docente o docentes representantes** y una
+**reseña o descripción de proyectos**. Todo se edita en `js/establecimientos.js`,
+que tiene las instrucciones al comienzo.
 
-Para agregar un establecimiento nuevo, duplicar un bloque
-`<article class="ficha">` y ajustar:
+- **Insignia:** guardar el logo en `img/insignias/` (crear la carpeta) y escribir
+  su nombre en el campo `insignia`. Si se deja vacío, la tarjeta muestra las
+  iniciales del establecimiento.
+- **Docentes:** escribir el o los nombres en la lista `docentes`.
+- **Reseña / proyectos:** escribir el texto en `resena`; aparece un botón
+  "Ver reseña".
 
-- El número correlativo (`ficha__numero`)
-- El nombre (`ficha__nombre`)
-- El atributo `data-sector`: `basica` o `media` (es lo que usa el filtro)
+> Falta la **nómina oficial completa** de los 28 establecimientos del DEM para
+> cargarla sin inventar nombres.
 
 ### 2. Imágenes
 **Ya están las doce fotografías del sitio**, extraídas del Facebook institucional

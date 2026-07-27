@@ -172,7 +172,7 @@
   /* ----------------------------------------------------------------------
      04. FILTRO DE ESTABLECIMIENTOS
      ---------------------------------------------------------------------- */
-  var botonesFiltro = Array.prototype.slice.call(document.querySelectorAll('.filtro'));
+  var botonesFiltro = Array.prototype.slice.call(document.querySelectorAll('#establecimientos .filtro'));
   var fichas = Array.prototype.slice.call(document.querySelectorAll('#rejaFichas .ficha'));
 
   if (botonesFiltro.length && fichas.length) {

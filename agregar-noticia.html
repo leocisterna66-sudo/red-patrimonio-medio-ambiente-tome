@@ -175,9 +175,10 @@
       <div class="campo-form">
         <label for="a_eje">Eje de la actividad</label>
         <select id="a_eje">
-          <option value="ambos">Ambos ejes</option>
+          <option value="ambos">Varios ejes</option>
           <option value="patrimonio">Patrimonio</option>
           <option value="ambiente">Medio ambiente</option>
+          <option value="ciudadania">Formación ciudadana</option>
         </select>
       </div>
       <div class="campo-form">
@@ -274,7 +275,7 @@
   copiador('copiar-noticia','codigo-noticia','aviso-noticia','js/noticias.js');
 
   /* ---------- AGENDA ---------- */
-  var EJES = { patrimonio:{clase:'marca-eje--patrimonio',texto:'Patrimonio'}, ambiente:{clase:'marca-eje--ambiente',texto:'Medio ambiente'}, ambos:{clase:'marca-eje--ambos',texto:'Ambos ejes'} };
+  var EJES = { patrimonio:{clase:'marca-eje--patrimonio',texto:'Patrimonio'}, ambiente:{clase:'marca-eje--ambiente',texto:'Medio ambiente'}, ciudadania:{clase:'marca-eje--ciudadania',texto:'Formación ciudadana'}, ambos:{clase:'marca-eje--ambos',texto:'Varios ejes'} };
   var camposA = ['a_fecha','a_etiqueta','a_eje','a_titulo','a_detalle','a_imagen','a_alt'];
   function actualizarAgenda() {
     var d = { fecha:g('a_fecha').value.trim(), etiqueta:g('a_etiqueta').value.trim(), eje:g('a_eje').value,

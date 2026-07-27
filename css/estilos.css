@@ -755,17 +755,31 @@ button { font-family: inherit; cursor: pointer; }
 .ficha:hover { border-left-color: var(--verde-vivo); box-shadow: 0 8px 24px rgba(26, 33, 29, .08); }
 .ficha[hidden] { display: none; }
 
-.ficha__numero {
+.ficha__insignia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: .9rem;
+  background: var(--papel-alt);
+  border: 1px solid var(--linea);
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.ficha__insignia img { width: 100%; height: 100%; object-fit: contain; }
+.ficha__iniciales {
   font-family: var(--fuente-display);
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--linea);
-  margin: 0 0 .35rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--verde-profundo);
+  letter-spacing: .02em;
 }
 .ficha__nombre {
   font-size: 1.28rem;
   color: var(--verde-profundo);
-  margin-bottom: .9rem;
+  margin: 0 0 .9rem;
   padding-bottom: .75rem;
   border-bottom: 1px solid var(--linea);
 }
@@ -793,6 +807,28 @@ button { font-family: inherit; cursor: pointer; }
   padding-bottom: 2px;
 }
 .ficha__enlace:hover { color: var(--verde-profundo); }
+
+.ficha__mas {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0 0 2px;
+  font-family: var(--fuente-ui);
+  font-size: .88rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--verde-vivo);
+  background: none;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  cursor: pointer;
+}
+.ficha__mas:hover { color: var(--verde-profundo); }
+.ficha__resena {
+  margin-top: .9rem;
+  padding-top: .9rem;
+  border-top: 1px solid var(--linea);
+}
+.ficha__resena p { font-size: .93rem; line-height: 1.55; color: var(--tinta-suave); margin: 0; }
 
 
 /* ==========================================================================
@@ -907,6 +943,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .marca-eje--patrimonio { background: rgba(162, 84, 47, .12); color: #83431F; }
 .marca-eje--ambiente   { background: rgba(46, 158, 104, .16); color: #1B6742; }
+.marca-eje--ciudadania { background: rgba(176, 138, 74, .18); color: #7A5B24; }
 .marca-eje--ambos      { background: rgba(86, 96, 90, .12);  color: var(--tinta-suave); }
 
 
@@ -1393,7 +1430,7 @@ button { font-family: inherit; cursor: pointer; }
 
   .lista-objetivos { grid-template-columns: repeat(2, 1fr); gap: 2rem 2.5rem; }
 
-  .dipticos { grid-template-columns: repeat(2, 1fr); gap: var(--espacio-md); }
+  .dipticos { grid-template-columns: 1fr; gap: var(--espacio-lg); }
 
   .reja-fichas { grid-template-columns: repeat(2, 1fr); }
 
@@ -1516,7 +1553,7 @@ button { font-family: inherit; cursor: pointer; }
   .reja-articulo { grid-template-columns: 1.55fr .95fr; gap: var(--espacio-lg); align-items: start; }
   .ficha-lateral { position: sticky; top: calc(var(--alto-encabezado) + 2rem); padding: 1.75rem 1.5rem; }
 
-  .dipticos { gap: var(--espacio-lg); }
+  .dipticos { grid-template-columns: repeat(3, 1fr); gap: var(--espacio-md); }
 
   .reja-fichas { grid-template-columns: repeat(3, 1fr); }
 

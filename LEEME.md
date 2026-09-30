@@ -16,6 +16,8 @@ dependiente de la Dirección de Educación de la Ilustre Municipalidad de Tomé.
 ├── js/agenda.js          Lista de actividades de "La Agenda"
 ├── js/establecimientos.js  Lista de establecimientos de la comuna
 ├── js/mapa.js            Mapa de la comuna y sus 25 puntos
+├── base-evaluacion-formativa/  Material de consulta sobre evaluación formativa
+│                         (presentación, ficha del taller y resumen en README.md)
 └── img/                  Imágenes del sitio (ver más abajo)
     └── originales/       Fotografías sin recortar, por si se necesita otro encuadre
 ```

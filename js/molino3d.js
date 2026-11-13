@@ -141,8 +141,8 @@ render.shadowMap.enabled = true;
 render.shadowMap.type = T.PCFSoftShadowMap;
 
 var escena = new T.Scene();
-var NIEBLA = 0xdcc9a3;
-escena.fog = new T.FogExp2(NIEBLA, 0.0021);
+var NIEBLA = 0xc6c2b8;
+escena.fog = new T.FogExp2(NIEBLA, 0.0019);
 var camara = new T.PerspectiveCamera(62, 1, 0.15, 2600);
 camara.rotation.order = 'YXZ';
 
@@ -155,75 +155,42 @@ function textura(c, rep) {
   return t;
 }
 
-/* Cielo: degradado cálido de tarde */
+/* Cielo fotográfico (Poly Haven, CC0): fondo y luz ambiente con reflejos */
+var TEX = window.MOLINO_TEX || {}, cargador = new T.TextureLoader(), _fotos = {};
+function foto(nombre, esColor) {
+  if (!TEX[nombre]) return null;
+  if (_fotos[nombre]) return _fotos[nombre];
+  var t = cargador.load(TEX[nombre]);
+  t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 8;
+  if (esColor) t.colorSpace = T.SRGBColorSpace;
+  _fotos[nombre] = t;
+  return t;
+}
 (function () {
-  var c = lienzo2d(8, 256), g = c.getContext('2d');
-  var gr = g.createLinearGradient(0, 0, 0, 256);
-  gr.addColorStop(0, '#5f86ad'); gr.addColorStop(0.32, '#9db6c4');
-  gr.addColorStop(0.47, '#ecd9b0'); gr.addColorStop(0.52, '#dcc9a3'); gr.addColorStop(1, '#dcc9a3');
-  g.fillStyle = gr; g.fillRect(0, 0, 8, 256);
-  var cielo = new T.Mesh(new T.SphereGeometry(2200, 24, 16),
-    new T.MeshBasicMaterial({ map: textura(c), side: T.BackSide, fog: false, depthWrite: false }));
-  escena.add(cielo);
+  if (!TEX.cielo) { escena.background = new T.Color(NIEBLA); return; }
+  var t = cargador.load(TEX.cielo, function (tx) {
+    var pm = new T.PMREMGenerator(render);
+    escena.environment = pm.fromEquirectangular(tx).texture;
+    pm.dispose();
+  });
+  t.mapping = T.EquirectangularReflectionMapping; t.colorSpace = T.SRGBColorSpace;
+  escena.background = t;
 })();
 
-escena.add(new T.HemisphereLight(0xcfdbe6, 0x8a7350, 1.15));
-var sol = new T.DirectionalLight(0xffe2b0, 3.1);
+escena.add(new T.HemisphereLight(0xcfdbe6, 0x8a7350, 0.3));
+var sol = new T.DirectionalLight(0xffe4bd, 3.6);
 sol.castShadow = true;
 sol.shadow.mapSize.set(esTactil ? 1024 : 2048, esTactil ? 1024 : 2048);
 sol.shadow.camera.left = -75; sol.shadow.camera.right = 75;
 sol.shadow.camera.top = 75; sol.shadow.camera.bottom = -75;
-sol.shadow.camera.near = 1; sol.shadow.camera.far = 320;
+sol.shadow.camera.near = 1; sol.shadow.camera.far = 420;
 sol.shadow.bias = -0.0006; sol.shadow.normalBias = 0.35;
 escena.add(sol); escena.add(sol.target);
-var DIR_SOL = new T.Vector3(-70, 62, 88);
+var DIR_SOL = new T.Vector3(-112, 63, 141);   // coincide con el sol del cielo fotográfico
 
 /* --------------------------------------------------------------------------
    TEXTURAS DIBUJADAS
    -------------------------------------------------------------------------- */
-function texLadrillo() {
-  var c = lienzo2d(256, 256), g = c.getContext('2d'), r = azar(7);
-  g.fillStyle = '#b3a288'; g.fillRect(0, 0, 256, 256);
-  for (var f = 0; f < 16; f++) for (var k = -1; k < 8; k++) {
-    var l = 34 + r() * 9, s = 42 + r() * 14, h = 10 + r() * 9;
-    g.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
-    g.fillRect(k * 32 + (f % 2 ? 16 : 0) + 1, f * 16 + 1, 30, 14);
-  }
-  return textura(c, true);
-}
-function texTablas(base, osc) {
-  var c = lienzo2d(256, 256), g = c.getContext('2d'), r = azar(11);
-  g.fillStyle = base; g.fillRect(0, 0, 256, 256);
-  for (var k = 0; k < 8; k++) {
-    g.fillStyle = 'rgba(0,0,0,' + (0.04 + r() * 0.14) + ')'; g.fillRect(k * 32, 0, 32, 256);
-    g.fillStyle = osc; g.fillRect(k * 32, 0, 2, 256);
-    for (var v = 0; v < 5; v++) { g.fillStyle = 'rgba(0,0,0,.06)'; g.fillRect(k * 32 + 4 + r() * 24, 0, 1, 256); }
-  }
-  return textura(c, true);
-}
-function texCalamina() {
-  var c = lienzo2d(128, 128), g = c.getContext('2d'), r = azar(5);
-  for (var k = 0; k < 16; k++) {
-    var gr = g.createLinearGradient(k * 8, 0, k * 8 + 8, 0);
-    gr.addColorStop(0, '#5d564f'); gr.addColorStop(0.5, '#8d857b'); gr.addColorStop(1, '#5d564f');
-    g.fillStyle = gr; g.fillRect(k * 8, 0, 8, 128);
-  }
-  for (var m = 0; m < 26; m++) {
-    g.fillStyle = 'rgba(122,70,40,' + (0.1 + r() * 0.2) + ')';
-    g.fillRect(r() * 128, r() * 128, 6 + r() * 26, 10 + r() * 40);
-  }
-  return textura(c, true);
-}
-function texTeja() {
-  var c = lienzo2d(128, 128), g = c.getContext('2d'), r = azar(3);
-  for (var k = 0; k < 8; k++) {
-    var gr = g.createLinearGradient(k * 16, 0, k * 16 + 16, 0);
-    gr.addColorStop(0, '#6f3d28'); gr.addColorStop(0.5, '#a9623f'); gr.addColorStop(1, '#6f3d28');
-    g.fillStyle = gr; g.fillRect(k * 16, 0, 16, 128);
-  }
-  for (var f = 0; f < 8; f++) { g.fillStyle = 'rgba(40,20,10,' + (0.15 + r() * 0.2) + ')'; g.fillRect(0, f * 16, 128, 2); }
-  return textura(c, true);
-}
 function texVentana(clara) {
   var c = lienzo2d(64, 96), g = c.getContext('2d');
   g.fillStyle = '#e7dfcc'; g.fillRect(0, 0, 64, 96);
@@ -235,24 +202,47 @@ function texVentana(clara) {
   }
   return textura(c);
 }
-function texRuido() {
-  var c = lienzo2d(256, 256), g = c.getContext('2d'), r = azar(21);
-  var im = g.createImageData(256, 256);
-  for (var i = 0; i < im.data.length; i += 4) {
-    var v = 190 + r() * 65; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255;
+/* Mapa de relieve de olas (repetible) para el estero y el mar */
+function texOlas() {
+  var N = 256, c = lienzo2d(N, N), g = c.getContext('2d'), im = g.createImageData(N, N), K = 6.2832 / N, r = azar(13), W = [];
+  for (var w = 0; w < 16; w++) {
+    var fx = Math.round((r() * 2 - 1) * 11), fy = Math.round((r() * 2 - 1) * 11), f = Math.hypot(fx, fy);
+    if (f < 2) { fx = 3; fy = -2; f = 3.6; }
+    W.push([fx, fy, r() * 6.283, 1.1 / f]);
+  }
+  function H(x, y) {
+    var u = x * K, v = y * K, h = 0;
+    for (var i = 0; i < W.length; i++) h += Math.sin(u * W[i][0] + v * W[i][1] + W[i][2]) * W[i][3];
+    return h;
+  }
+  for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
+    var dx = (H(x + 1, y) - H(x - 1, y)) * 3.2, dy = (H(x, y + 1) - H(x, y - 1)) * 3.2, l = Math.hypot(dx, dy, 1), i = (y * N + x) * 4;
+    im.data[i] = (-dx / l * 0.5 + 0.5) * 255; im.data[i + 1] = (-dy / l * 0.5 + 0.5) * 255; im.data[i + 2] = (1 / l * 0.5 + 0.5) * 255; im.data[i + 3] = 255;
   }
   g.putImageData(im, 0, 0);
-  for (var m = 0; m < 300; m++) { g.fillStyle = 'rgba(90,80,50,' + r() * 0.18 + ')'; g.fillRect(r() * 256, r() * 256, 2 + r() * 5, 1 + r() * 3); }
-  return textura(c, true);
+  var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 4;
+  return t;
 }
-function texAgua() {
-  var c = lienzo2d(128, 128), g = c.getContext('2d'), r = azar(9);
-  g.fillStyle = '#ffffff'; g.fillRect(0, 0, 128, 128);
-  for (var m = 0; m < 90; m++) {
-    g.fillStyle = 'rgba(' + (r() > 0.5 ? '255,255,255' : '60,90,100') + ',' + (0.1 + r() * 0.25) + ')';
-    g.fillRect(r() * 128, r() * 128, 8 + r() * 28, 1.5);
+function texHojas() {
+  var c = lienzo2d(256, 256), g = c.getContext('2d'), r = azar(77);
+  for (var i = 0; i < 900; i++) {
+    var a = r() * 6.283, d = Math.pow(r(), 0.55) * 118;
+    g.save(); g.translate(128 + Math.cos(a) * d, 128 + Math.sin(a) * d); g.rotate(r() * 6.283);
+    g.fillStyle = 'hsl(' + (76 + r() * 30) + ',' + (30 + r() * 22) + '%,' + (24 + r() * 24) + '%)';
+    g.beginPath(); g.ellipse(0, 0, 4.5 + r() * 3.5, 2 + r() * 1.6, 0, 0, 6.283); g.fill(); g.restore();
   }
-  return textura(c, true);
+  return textura(c);
+}
+function texPasto() {
+  var c = lienzo2d(128, 64), g = c.getContext('2d'), r = azar(31);
+  g.lineCap = 'round';
+  for (var i = 0; i < 110; i++) {
+    var x = 6 + r() * 116, h = 18 + r() * 44, dx = (r() - 0.5) * 26;
+    g.strokeStyle = 'hsl(' + (48 + r() * 22) + ',' + (22 + r() * 16) + '%,' + (40 + r() * 22) + '%)';
+    g.lineWidth = 1 + r() * 1.3;
+    g.beginPath(); g.moveTo(x, 64); g.quadraticCurveTo(x + dx * 0.2, 64 - h * 0.6, x + dx, 64 - h); g.stroke();
+  }
+  return textura(c);
 }
 function texLetrero() {
   var c = lienzo2d(1024, 64), g = c.getContext('2d');
@@ -272,21 +262,30 @@ function texHumo() {
   return textura(c);
 }
 
+/* Material fotográfico: mosaico = metros que cubre una repetición; tinte multiplica el color */
+function mat(nombre, mosaico, tinte, extra) {
+  var m = new T.MeshStandardMaterial({ map: foto(nombre, true), normalMap: foto(nombre + 'N'), roughness: 0.92, metalness: 0 });
+  if (tinte) m.color.setRGB(tinte[0], tinte[1], tinte[2]);
+  if (extra) m.setValues(extra);
+  m.userData.mosaico = mosaico;
+  return m;
+}
 var M = {
-  ladrillo: new T.MeshLambertMaterial({ map: texLadrillo() }),
-  ladrilloClaro: new T.MeshLambertMaterial({ color: 0xb98a6c }),
-  adobe: new T.MeshLambertMaterial({ color: 0xd8cab0 }),
-  madera: new T.MeshLambertMaterial({ map: texTablas('#7a5c40', 'rgba(30,18,8,.55)') }),
-  maderaOsc: new T.MeshLambertMaterial({ color: 0x4a3626 }),
-  piso: new T.MeshLambertMaterial({ map: texTablas('#8d7355', 'rgba(40,26,12,.5)') }),
-  calamina: new T.MeshLambertMaterial({ map: texCalamina(), side: T.DoubleSide }),
-  teja: new T.MeshLambertMaterial({ map: texTeja(), side: T.DoubleSide }),
-  fierro: new T.MeshLambertMaterial({ color: 0x34363a }),
-  piedra: new T.MeshLambertMaterial({ color: 0xa9a294 }),
-  saco: new T.MeshLambertMaterial({ color: 0xe6dcc3 }),
-  ventana: new T.MeshLambertMaterial({ map: texVentana(false) }),
+  ladrillo: mat('ladrillo', 2.0, [1.3, 1.0, 0.9]),
+  ladrilloClaro: mat('adobe', 2.4, [1.45, 1.2, 1.0]),
+  adobe: mat('adobe', 2.6, [1.8, 1.7, 1.55]),
+  madera: mat('tablas', 2.0, [1.05, 1.0, 0.95]),
+  maderaOsc: mat('tablas', 2.0, [0.55, 0.5, 0.46]),
+  piso: mat('piso', 2.2, [1.15, 1.1, 1.05]),
+  pisoInt: mat('piso', 2.2, [1.2, 1.1, 1.0], { envMapIntensity: 0.3 }),
+  calamina: mat('calamina', 2.4, [1, 1, 1], { side: T.DoubleSide, roughness: 0.78, metalness: 0.2 }),
+  teja: mat('teja', 1.8, [1.05, 1, 1], { side: T.DoubleSide }),
+  fierro: new T.MeshStandardMaterial({ color: 0x2e3033, roughness: 0.55, metalness: 0.7 }),
+  piedra: new T.MeshStandardMaterial({ color: 0xa9a294, roughness: 0.95 }),
+  saco: new T.MeshStandardMaterial({ color: 0xe0d4b6, roughness: 1 }),
+  ventana: new T.MeshStandardMaterial({ map: texVentana(false), roughness: 0.22 }),
   ventanaInt: new T.MeshBasicMaterial({ map: texVentana(true) }),
-  puerta: new T.MeshLambertMaterial({ color: 0x3b2a1e }),
+  puerta: mat('tablas', 1.6, [0.42, 0.34, 0.28]),
   oscuro: new T.MeshBasicMaterial({ color: 0x15110d })
 };
 
@@ -299,6 +298,7 @@ function choque(x0, x1, z0, z1) { choques.push({ x0: x0, x1: x1, z0: z0, z1: z1 
 /* Caja con textura medida en metros (mosaico = tamaño de una repetición) */
 function caja(w, h, d, mat, x, y, z, mosaico, padre) {
   var g = new T.BoxGeometry(w, h, d);
+  mosaico = (mat.userData && mat.userData.mosaico) || mosaico;
   if (mosaico) {
     var uv = g.attributes.uv, dims = [[d, h], [d, h], [w, d], [w, d], [w, h], [w, h]];
     for (var c = 0; c < 6; c++) for (var i = 0; i < 4; i++) {
@@ -329,7 +329,7 @@ function techo(w, d, alto, alero, matTecho, matFronton, mosaico, padre) {
   var largoFalda = Math.hypot(Z, alto - ye);
   var p = [ -L, ye, Z,  L, ye, Z,  L, alto, 0,  -L, alto, 0,
              L, ye, -Z, -L, ye, -Z, -L, alto, 0,  L, alto, 0 ];
-  var u = 2 * L, v = largoFalda / 2.2;
+  var ms = (matTecho.userData && matTecho.userData.mosaico) || 2.2, u = 2 * L / ms, v = largoFalda / ms;
   var uvs = [0, 0, u, 0, u, v, 0, v, 0, 0, u, 0, u, v, 0, v];
   var g = new T.BufferGeometry();
   g.setAttribute('position', new T.Float32BufferAttribute(p, 3));
@@ -339,7 +339,7 @@ function techo(w, d, alto, alero, matTecho, matFronton, mosaico, padre) {
   var t = new T.Mesh(g, matTecho); t.castShadow = true; t.receiveShadow = true;
   padre.add(t);
   if (matFronton) {
-    var m = mosaico || 1.6, fp = [], fuv = [];
+    var m = (matFronton.userData && matFronton.userData.mosaico) || mosaico || 1.6, fp = [], fuv = [];
     [-w / 2, w / 2].forEach(function (x) {
       fp.push(x, 0, -d / 2, x, 0, d / 2, x, alto, 0);
       fuv.push(0, 0, d / m, 0, d / 2 / m, alto / m);
@@ -396,43 +396,67 @@ function pila(x, y, z, nx, nz, ny, ry) {
 /* --------------------------------------------------------------------------
    TERRENO, ESTERO Y MAR
    -------------------------------------------------------------------------- */
+var C_SECO = new T.Color(1.0, 0.97, 0.8), C_VERDE = new T.Color(0.6, 0.86, 0.48), C_RIBERA = new T.Color(0.42, 0.72, 0.38),
+    C_TIERRA = new T.Color(1.6, 1.5, 1.34), C_ARENA = new T.Color(1.45, 1.4, 1.25), C_FONDO = new T.Color(0.5, 0.56, 0.5);
+/* Qué cubre el suelo en un punto: tinte del pasto y proporción de tierra y arena */
+function cobertura(x, z, o) {
+  var h = altura(x, z), d = Math.abs(z - zEstero(x));
+  var n = 0.5 + 0.5 * Math.sin(x * 0.07 + z * 0.05) * Math.cos(z * 0.09 - x * 0.03);
+  o.tinte.copy(C_SECO).lerp(C_VERDE, n * 0.75).lerp(C_RIBERA, 1 - ss(6, 26, d));
+  var t = 1 - ss(36, 52, Math.hypot(x, z - 8));
+  if (x < 70) t = Math.max(t, (1 - ss(2.5, 5, Math.abs(z - 38))) * 0.9);
+  t = Math.max(t, ss(325, 350, x));
+  var a = ss(388, 399, x);
+  o.tinte.lerp(C_TIERRA, t).lerp(C_ARENA, a);
+  if (h < 0.3 || d < 6) o.tinte.lerp(C_FONDO, 0.7);
+  o.tierra = t * (1 - a); o.arena = a; o.h = h; o.d = d;
+  return o;
+}
 (function () {
   var X0 = -170, X1 = 520, Z0 = -230, Z1 = 230, nx = 172, nz = 115;
   var g = new T.PlaneGeometry(X1 - X0, Z1 - Z0, nx, nz);
   g.rotateX(-Math.PI / 2); g.translate((X0 + X1) / 2, 0, (Z0 + Z1) / 2);
-  var p = g.attributes.position, col = new Float32Array(p.count * 3), c = new T.Color();
-  var seco = new T.Color(0xb7a05c), verde = new T.Color(0x76874a), ribera = new T.Color(0x55773c),
-      tierra = new T.Color(0xa88c63), arena = new T.Color(0xcbb98b), fondo = new T.Color(0x6b6a55);
+  var p = g.attributes.position, uv = g.attributes.uv, col = new Float32Array(p.count * 3), peso = new Float32Array(p.count * 3);
+  var cb = { tinte: new T.Color() };
   for (var i = 0; i < p.count; i++) {
-    var x = p.getX(i), z = p.getZ(i), h = altura(x, z);
-    p.setY(i, h);
-    var n = 0.5 + 0.5 * Math.sin(x * 0.07 + z * 0.05) * Math.cos(z * 0.09 - x * 0.03);
-    c.copy(seco).lerp(verde, n * 0.7);
-    var d = Math.abs(z - zEstero(x));
-    c.lerp(ribera, 1 - ss(6, 26, d));
-    var dp = Math.hypot(x, z - 8);
-    c.lerp(tierra, (1 - ss(36, 52, dp)) * 0.95);
-    if (x < 70) c.lerp(tierra, (1 - ss(2.5, 5, Math.abs(z - 38))) * 0.9);
-    c.lerp(tierra, ss(325, 350, x) * 0.9);
-    c.lerp(arena, ss(390, 400, x));
-    if (h < 0.3 || d < 6) c.lerp(fondo, 0.7);
-    col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+    var x = p.getX(i), z = p.getZ(i);
+    cobertura(x, z, cb);
+    p.setY(i, cb.h); uv.setXY(i, x / 6, z / 6);
+    col[i * 3] = cb.tinte.r; col[i * 3 + 1] = cb.tinte.g; col[i * 3 + 2] = cb.tinte.b;
+    peso[i * 3] = cb.tierra; peso[i * 3 + 2] = cb.arena;
   }
   g.setAttribute('color', new T.BufferAttribute(col, 3));
+  g.setAttribute('peso', new T.BufferAttribute(peso, 3));
   g.computeVertexNormals();
-  var tr = texRuido(); tr.repeat.set(86, 58);
-  var terreno = new T.Mesh(g, new T.MeshLambertMaterial({ vertexColors: true, map: tr }));
+  var m = new T.MeshStandardMaterial({ map: foto('pasto', true), normalMap: foto('pastoN'), vertexColors: true, roughness: 1 });
+  m.onBeforeCompile = function (sh) {
+    sh.uniforms.tTierra = { value: foto('tierra', true) };
+    sh.uniforms.tArena = { value: foto('arena', true) };
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nattribute vec3 peso;\nvarying vec3 vPeso;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPeso = peso;');
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform sampler2D tTierra;\nuniform sampler2D tArena;\nvarying vec3 vPeso;')
+      .replace('#include <map_fragment>', [
+        '#ifdef USE_MAP',
+        '  vec3 cP = mix(texture2D(map, vMapUv).rgb, texture2D(map, vMapUv * 0.17).rgb, 0.42);',
+        '  vec3 cT = mix(texture2D(tTierra, vMapUv * 1.4).rgb, texture2D(tTierra, vMapUv * 0.23).rgb, 0.35);',
+        '  vec3 cS = texture2D(tArena, vMapUv * 1.1).rgb;',
+        '  diffuseColor.rgb *= mix(mix(cP, cT, clamp(vPeso.r, 0.0, 1.0)), cS, clamp(vPeso.b, 0.0, 1.0));',
+        '#endif'].join('\n'));
+  };
+  var terreno = new T.Mesh(g, m);
   terreno.receiveShadow = true;
   escena.add(terreno);
 })();
 
-var texEstero = texAgua(), texMar = texAgua();
+var olasBase = texOlas(), texEstero = olasBase, texMar = olasBase.clone();
 (function () {
   var pos = [], uv = [], idx = [], k = 0;
   for (var x = -170; x <= 246; x += 4) {
     var zc = zEstero(x), y = lecho(x) - 0.38;
     pos.push(x, y, zc - 5.2, x, y, zc + 5.2);
-    uv.push(0, x / 9, 1, x / 9);
+    uv.push(0, x / 14, 0.75, x / 14);
     if (k > 0) idx.push(k * 2 - 2, k * 2 - 1, k * 2, k * 2 - 1, k * 2 + 1, k * 2);
     k++;
   }
@@ -440,12 +464,14 @@ var texEstero = texAgua(), texMar = texAgua();
   g.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
   g.setAttribute('uv', new T.Float32BufferAttribute(uv, 2));
   g.setIndex(idx); g.computeVertexNormals();
-  var e = new T.Mesh(g, new T.MeshLambertMaterial({ color: 0x6f9a96, map: texEstero, transparent: true, opacity: 0.86, side: T.DoubleSide }));
+  var e = new T.Mesh(g, new T.MeshStandardMaterial({ color: 0x3d605c, roughness: 0.1, normalMap: texEstero,
+    normalScale: new T.Vector2(0.4, 0.4), transparent: true, opacity: 0.88, side: T.DoubleSide }));
   e.receiveShadow = true; escena.add(e);
 
-  texMar.repeat.set(70, 90);
-  var mar = new T.Mesh(new T.PlaneGeometry(1500, 1900), new T.MeshLambertMaterial({ color: 0x5b8794, map: texMar }));
-  mar.rotation.x = -Math.PI / 2; mar.position.set(395 + 750, 0, 0);
+  texMar.needsUpdate = true; texMar.repeat.set(120, 152);
+  var mar = new T.Mesh(new T.PlaneGeometry(1500, 1900), new T.MeshStandardMaterial({ color: 0x1d4252, roughness: 0.16,
+    normalMap: texMar, normalScale: new T.Vector2(0.38, 0.38) }));
+  mar.rotation.x = -Math.PI / 2; mar.position.set(395 + 750, 0, 0); mar.receiveShadow = true;
   escena.add(mar);
 })();
 
@@ -522,7 +548,7 @@ var engranajes = [];
   instanciar(new T.BoxGeometry(vw + 0.3, 0.24, 0.14), M.ladrilloClaro, lista, vh / 2 + 0.12, false);
 
   /* Letrero pintado (supuesto) */
-  plano(21, 1.15, new T.MeshLambertMaterial({ map: texLetrero() }), 0, 2 * MOLINO.altoPiso + 3.05 + 0.92, A / 2 + 0.04, 0, g);
+  plano(21, 1.15, new T.MeshStandardMaterial({ map: texLetrero() }), 0, 2 * MOLINO.altoPiso + 3.05 + 0.92, A / 2 + 0.04, 0, g);
 
   /* Techo */
   var gt = new T.Group(); gt.position.y = H; g.add(gt);
@@ -538,8 +564,8 @@ var engranajes = [];
 
   /* ---------- Interior del primer piso ---------- */
   var yi = 0.06;
-  var piso = caja(L - 2 * e, 0.12, A - 2 * e, M.piso, 0, yi, 0, 1.3, g); piso.castShadow = false;
-  var cielo = caja(L - 2 * e, 0.25, A - 2 * e, M.piso, 0, MOLINO.altoPiso, 0, 2.4, g); cielo.castShadow = false;
+  var piso = caja(L - 2 * e, 0.12, A - 2 * e, M.pisoInt, 0, yi, 0, 1.3, g); piso.castShadow = false;
+  var cielo = caja(L - 2 * e, 0.25, A - 2 * e, M.pisoInt, 0, MOLINO.altoPiso, 0, 2.4, g); cielo.castShadow = false;
   for (var b = 0; b < 12; b++) caja(0.25, 0.3, A - 2 * e, M.maderaOsc, -16.5 + b * 3, MOLINO.altoPiso - 0.27, 0, 0, g);
   for (var c2 = 0; c2 < 6; c2++) [-0.4, 4.2].forEach(function (zc) {
     if (Math.abs(-15.5 + c2 * 6.2) > 0.1) caja(0.32, MOLINO.altoPiso, 0.32, M.maderaOsc, -15.5 + c2 * 6.2, MOLINO.altoPiso / 2, zc, 0, g);
@@ -604,10 +630,9 @@ var aguaCanal;
   caja(largo, 0.1, 1.5, M.madera, 0, -0.3, 0, 1.2, gc);
   caja(largo, 0.7, 0.1, M.madera, 0, 0, 0.75, 1.2, gc);
   caja(largo, 0.7, 0.1, M.madera, 0, 0, -0.75, 1.2, gc);
-  var ta = texAgua(); ta.repeat.set(1, 20);
-  aguaCanal = new T.Mesh(new T.PlaneGeometry(largo, 1.4), new T.MeshLambertMaterial({ color: 0x7aa7a2, map: ta }));
+  var ta = olasBase.clone(); ta.needsUpdate = true; ta.repeat.set(largo / 8, 0.18);
+  aguaCanal = new T.Mesh(new T.PlaneGeometry(largo, 1.4), new T.MeshStandardMaterial({ color: 0x40635f, roughness: 0.12, normalMap: ta }));
   aguaCanal.rotation.x = -Math.PI / 2; aguaCanal.position.y = 0.12; gc.add(aguaCanal);
-  ta.rotation = Math.PI / 2;
   for (var i = 0; i <= 10; i++) {
     var f = i / 10, x = lerp(x0, x1, f), z = lerp(z0, z1, f), y = lerp(y0, y1, f), h = altura(x, z);
     caja(0.2, y - h + 0.6, 0.2, M.maderaOsc, x, (y + h) / 2 - 0.6, z + 0.7, 0);
@@ -633,13 +658,16 @@ edificio({ x: -40, z: 20, w: 22, d: 10, h: 4.4, cumbrera: 2.6, muro: M.madera, t
 pila(-27, 6, 24, 4, 3, 4, 0.3); choque(-29.2, -24.8, 22.8, 25.4);
 
 var gRueda = new T.CylinderGeometry(0.75, 0.75, 0.1, 14);
+var gCuerpoBuey = new T.CapsuleGeometry(0.42, 1.15, 5, 12), gPataBuey = new T.CapsuleGeometry(0.085, 0.62, 3, 8), gCabezaBuey = new T.CapsuleGeometry(0.2, 0.3, 4, 10);
+var PELAJES = [0x5c3f2c, 0x7d5f45, 0x3f3029].map(function (c) { return new T.MeshStandardMaterial({ color: c, roughness: 0.95 }); });
 function buey(x, z, ry, padre) {
   var g = new T.Group(); g.position.set(x, 0, z); g.rotation.y = ry; padre.add(g);
-  var mat = new T.MeshLambertMaterial({ color: rnd() > 0.5 ? 0x6b4a34 : 0x8a6a4c });
-  caja(1.9, 0.85, 0.75, mat, 0, 1.15, 0, 0, g);
-  caja(0.6, 0.5, 0.5, mat, 1.2, 1.25, 0, 0, g);
-  [[-0.7, -0.25], [-0.7, 0.25], [0.7, -0.25], [0.7, 0.25]].forEach(function (p) { caja(0.18, 0.75, 0.18, mat, p[0], 0.38, p[1], 0, g); });
-  caja(0.06, 0.06, 0.9, M.piedra, 1.35, 1.55, 0, 0, g);
+  var m = PELAJES[Math.floor(rnd() * PELAJES.length)];
+  function pieza(geo, px, py, pz, rz) { var o = new T.Mesh(geo, m); o.position.set(px, py, pz); o.rotation.z = rz || 0; o.castShadow = true; g.add(o); return o; }
+  pieza(gCuerpoBuey, 0, 1.15, 0, Math.PI / 2).scale.set(1, 1, 0.82);
+  pieza(gCabezaBuey, 1.22, 1.2, 0, 1.15);
+  [[-0.62, -0.22], [-0.62, 0.22], [0.62, -0.22], [0.62, 0.22]].forEach(function (p) { pieza(gPataBuey, p[0], 0.4, p[1]); });
+  caja(0.05, 0.05, 0.86, M.piedra, 1.2, 1.5, 0, 0, g);
 }
 function carreta(x, z, ry, cargada) {
   var g = new T.Group(); g.position.set(x, suelo(x, z), z); g.rotation.y = ry; escena.add(g);
@@ -666,25 +694,25 @@ carreta(24, 28, 2.9, false);
 carreta(-58, 38, 0.02, true);
 carreta(-84, 38.5, -0.03, true);
 
-var gCabeza = new T.SphereGeometry(0.13, 8, 6), gAla = new T.CylinderGeometry(0.3, 0.3, 0.03, 10), gCopa = new T.CylinderGeometry(0.12, 0.14, 0.14, 8);
-var matPiel = new T.MeshLambertMaterial({ color: 0xb98c68 }), matPaja = new T.MeshLambertMaterial({ color: 0xcdb884 });
-var ROPAS = [0x5a5347, 0x6b5d4a, 0x4c4f58, 0x7a6a52, 0x8c8271].map(function (c) { return new T.MeshLambertMaterial({ color: c }); });
+var gCabeza = new T.SphereGeometry(0.115, 12, 10), gAla = new T.CylinderGeometry(0.29, 0.31, 0.025, 14), gCopa = new T.CylinderGeometry(0.11, 0.13, 0.13, 10);
+var gPierna = new T.CapsuleGeometry(0.075, 0.68, 3, 8), gTorso = new T.CapsuleGeometry(0.17, 0.36, 4, 12), gBrazo = new T.CapsuleGeometry(0.052, 0.5, 3, 8);
+var matPiel = new T.MeshStandardMaterial({ color: 0xb08460, roughness: 0.8 }), matPaja = new T.MeshStandardMaterial({ color: 0xcdb884, roughness: 1 });
+var ROPAS = [0x5a5347, 0x6b5d4a, 0x4c4f58, 0x7a6a52, 0x8c8271, 0x9a927f].map(function (c) { return new T.MeshStandardMaterial({ color: c, roughness: 1 }); });
 function persona(x, z, ry, conSaco, escala) {
   var g = new T.Group(), e = escala || 1;
   g.position.set(x, suelo(x, z), z); g.rotation.y = ry; g.scale.setScalar(e); escena.add(g);
-  var ropa = ROPAS[Math.floor(rnd() * ROPAS.length)], pant = ROPAS[Math.floor(rnd() * ROPAS.length)];
-  caja(0.14, 0.82, 0.16, pant, -0.1, 0.41, 0.03, 0, g); caja(0.14, 0.82, 0.16, pant, 0.1, 0.41, -0.03, 0, g);
-  var torso = caja(0.42, 0.6, 0.24, ropa, 0, 1.12, 0, 0, g);
-  var c = new T.Mesh(gCabeza, matPiel); c.position.set(0, 1.56, 0.02); g.add(c);
-  var ala = new T.Mesh(gAla, matPaja); ala.position.set(0, 1.66, 0.02); ala.castShadow = true; g.add(ala);
-  var copa = new T.Mesh(gCopa, matPaja); copa.position.set(0, 1.73, 0.02); g.add(copa);
+  var ropa = ROPAS[Math.floor(rnd() * ROPAS.length)], pant = ROPAS[Math.floor(rnd() * 3)];
+  function pieza(geo, m, px, py, pz, rx, rz) { var o = new T.Mesh(geo, m); o.position.set(px, py, pz); o.rotation.set(rx || 0, 0, rz || 0); o.castShadow = true; g.add(o); return o; }
+  pieza(gPierna, pant, -0.09, 0.42, 0.05, -0.1); pieza(gPierna, pant, 0.09, 0.42, -0.05, 0.1);
+  pieza(gTorso, ropa, 0, 1.13, 0, conSaco ? 0.24 : 0.04).scale.set(1, 1, 0.72);
+  pieza(gCabeza, matPiel, 0, 1.55, conSaco ? 0.09 : 0.02);
+  pieza(gAla, matPaja, 0, 1.64, conSaco ? 0.09 : 0.02); pieza(gCopa, matPaja, 0, 1.7, conSaco ? 0.09 : 0.02);
   if (conSaco) {
-    torso.rotation.x = 0.22;
     var s = new T.Mesh(sacos.geometry, M.saco); s.scale.set(0.8, 0.34, 0.5); s.rotation.y = Math.PI / 2;
-    s.position.set(0, 1.5, -0.2); s.castShadow = true; g.add(s);
-    caja(0.1, 0.5, 0.1, ropa, -0.26, 1.42, -0.05, 0, g); caja(0.1, 0.5, 0.1, ropa, 0.26, 1.42, -0.05, 0, g);
+    s.position.set(0, 1.52, -0.16); s.castShadow = true; g.add(s);
+    pieza(gBrazo, ropa, -0.24, 1.42, -0.04, 0.5, 0.25); pieza(gBrazo, ropa, 0.24, 1.42, -0.04, 0.5, -0.25);
   } else {
-    caja(0.1, 0.58, 0.1, ropa, -0.27, 1.1, 0, 0, g); caja(0.1, 0.58, 0.1, ropa, 0.27, 1.1, 0, 0, g);
+    pieza(gBrazo, ropa, -0.23, 1.08, 0.01, 0.06, -0.1); pieza(gBrazo, ropa, 0.23, 1.08, 0.01, -0.06, 0.1);
   }
 }
 persona(1.2, 10.5, 0.2, true); persona(-1.5, 15, 3.0, true); persona(-6, 21, 2.6, true, 0.78);
@@ -819,7 +847,7 @@ var carros = [];
   sh.quadraticCurveTo(16, 3, 10, 3.5); sh.lineTo(-17, 3); sh.quadraticCurveTo(-19, 0, -17, -3);
   var gh = new T.ExtrudeGeometry(sh, { depth: 4.4, bevelEnabled: false, curveSegments: 6 });
   gh.rotateX(-Math.PI / 2);
-  var matCasco = new T.MeshLambertMaterial({ color: 0x2a2521 }), matVela = new T.MeshLambertMaterial({ color: 0xd9cfb6 });
+  var matCasco = new T.MeshStandardMaterial({ color: 0x2a2521 }), matVela = new T.MeshStandardMaterial({ color: 0xd9cfb6 });
   var barco = new T.Group(); barco.position.set(440, -1.3, 9.2); escena.add(barco);
   var casco = new T.Mesh(gh, matCasco); casco.castShadow = true; barco.add(casco);
   var cubierta = new T.Mesh(new T.ShapeGeometry(sh), M.piso); cubierta.rotation.x = -Math.PI / 2; cubierta.position.y = 4.42; cubierta.scale.set(0.97, 0.9, 1); barco.add(cubierta);
@@ -842,32 +870,64 @@ var carros = [];
   barco.add(new T.LineSegments(gj, new T.LineBasicMaterial({ color: 0x2a2420 })));
   /* lanchas */
   [[414, -14, 0.5], [423, -22, -0.3]].forEach(function (l) {
-    var b = new T.Mesh(gh, M.maderaOsc); b.scale.set(0.2, 0.2, 0.26); b.position.set(l[0], -0.4, l[1]); b.rotation.y = l[2]; escena.add(b);
+    var b = new T.Mesh(gh, M.maderaOsc); b.scale.set(0.2, 0.28, 0.26); b.position.set(l[0], -0.55, l[1]); b.rotation.y = l[2]; escena.add(b);
   });
 })();
 
 /* --------------------------------------------------------------------------
-   ÁRBOLES
+   ÁRBOLES Y PASTO
+   Las copas son racimos de tarjetas con hojas; el pasto, matas cruzadas.
    -------------------------------------------------------------------------- */
+function copa(n, rx, ry, rz, tam, r) {
+  var pos = [], nor = [], uv = [], col = [], idx = [], e = new T.Euler(), ax = new T.Vector3(), ay = new T.Vector3();
+  for (var i = 0; i < n; i++) {
+    var u = r() * 2 - 1, a = r() * 6.283, s = Math.sqrt(1 - u * u), k = 0.5 + 0.5 * Math.cbrt(r());
+    var cx = s * Math.cos(a) * rx * k, cy = u * ry * k, cz = s * Math.sin(a) * rz * k;
+    e.set(r() * 3.14, r() * 3.14, r() * 3.14); ax.set(1, 0, 0).applyEuler(e); ay.set(0, 1, 0).applyEuler(e);
+    var h = tam * (0.75 + r() * 0.6), b = pos.length / 3;
+    var nx = cx / rx, ny = cy / ry + 0.45, nz = cz / rz, nl = Math.hypot(nx, ny, nz) || 1;
+    var luz = (0.5 + 0.5 * k) * (0.72 + 0.28 * (u * 0.5 + 0.5));
+    [[-1, -1, 0, 0], [1, -1, 1, 0], [1, 1, 1, 1], [-1, 1, 0, 1]].forEach(function (q) {
+      pos.push(cx + (ax.x * q[0] + ay.x * q[1]) * h, cy + (ax.y * q[0] + ay.y * q[1]) * h, cz + (ax.z * q[0] + ay.z * q[1]) * h);
+      nor.push(nx / nl, ny / nl, nz / nl); uv.push(q[2], q[3]); col.push(luz, luz, luz);
+    });
+    idx.push(b, b + 1, b + 2, b, b + 2, b + 3, b, b + 2, b + 1, b, b + 3, b + 2);
+  }
+  var g = new T.BufferGeometry();
+  g.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal', new T.Float32BufferAttribute(nor, 3));
+  g.setAttribute('uv', new T.Float32BufferAttribute(uv, 2));
+  g.setAttribute('color', new T.Float32BufferAttribute(col, 3));
+  g.setIndex(idx);
+  return g;
+}
 (function () {
   var N = 620, r = azar(42);
-  var troncos = new T.InstancedMesh(new T.CylinderGeometry(0.16, 0.24, 1, 6), new T.MeshLambertMaterial({ color: 0x4d3b2a }), N);
-  var copas = new T.InstancedMesh(new T.IcosahedronGeometry(1, 1), new T.MeshLambertMaterial({ color: 0xffffff, flatShading: true }), N);
-  var alamos = new T.InstancedMesh(new T.ConeGeometry(1, 1, 7), new T.MeshLambertMaterial({ color: 0xffffff, flatShading: true }), N);
-  var nt = 0, nc = 0, na = 0, col = new T.Color();
+  var matHojas = new T.MeshStandardMaterial({ map: texHojas(), alphaTest: 0.5, vertexColors: true, roughness: 0.9 });
+  var troncos = new T.InstancedMesh(new T.CylinderGeometry(0.13, 0.25, 1, 7), M.maderaOsc, N);
+  var robles = new T.InstancedMesh(copa(esTactil ? 60 : 95, 1, 0.85, 1, 0.36, r), matHojas, N);
+  var sauces = new T.InstancedMesh(copa(esTactil ? 60 : 95, 1.15, 0.7, 1.15, 0.38, r), matHojas, 80);
+  var alamos = new T.InstancedMesh(copa(esTactil ? 50 : 80, 0.25, 1, 0.25, 0.13, r), matHojas, 160);
+  var nt = 0, nr = 0, ns = 0, na = 0, col = new T.Color();
   function arbol(x, z, tipo) {
     var h = altura(x, z); if (h < 0.8 || nt >= N) return;
-    var e = 0.8 + r() * 0.7;
+    var e = 0.8 + r() * 0.7; _e.set(0, r() * 6.283, 0); _q.setFromEuler(_e);
     if (tipo === 'alamo') {
-      _m4.compose(_v.set(x, h + 5.5 * e, z), _q.identity(), _s.set(1.25 * e, 11 * e, 1.25 * e));
-      alamos.setMatrixAt(na, _m4); alamos.setColorAt(na++, col.setHSL(0.21 + r() * 0.04, 0.34, 0.27 + r() * 0.07));
-      _m4.compose(_v.set(x, h + 0.5, z), _q.identity(), _s.set(1, 1.6, 1)); troncos.setMatrixAt(nt++, _m4);
+      if (na >= 160) return;
+      _m4.compose(_v.set(x, h + 6.6 * e, z), _q, _s.set(6.2 * e, 6.2 * e, 6.2 * e));
+      alamos.setMatrixAt(na, _m4); alamos.setColorAt(na++, col.setHSL(0.2 + r() * 0.04, 0.3, 0.42 + r() * 0.1));
+      _m4.compose(_v.set(x, h + 1.4, z), _q, _s.set(1, 3.4, 1)); troncos.setMatrixAt(nt++, _m4);
+    } else if (tipo === 'sauce') {
+      if (ns >= 80) return;
+      var ts = 2.4 * e, rs = 3.5 * e;
+      _m4.compose(_v.set(x, h + ts + rs * 0.42, z), _q, _s.set(rs, rs, rs));
+      sauces.setMatrixAt(ns, _m4); sauces.setColorAt(ns++, col.setHSL(0.19 + r() * 0.03, 0.42, 0.5 + r() * 0.1));
+      _m4.compose(_v.set(x, h + (ts + rs * 0.3) / 2, z), _q, _s.set(1.5 * e, ts + rs * 0.3, 1.5 * e)); troncos.setMatrixAt(nt++, _m4);
     } else {
-      var sauce = tipo === 'sauce', th = (sauce ? 2.6 : 3.2) * e, rc = (sauce ? 3.4 : 2.6) * e;
-      _m4.compose(_v.set(x, h + th / 2, z), _q.identity(), _s.set(1.4 * e, th, 1.4 * e)); troncos.setMatrixAt(nt++, _m4);
-      _m4.compose(_v.set(x, h + th + rc * (sauce ? 0.35 : 0.55), z), _q.identity(), _s.set(rc, rc * (sauce ? 0.78 : 0.95), rc));
-      copas.setMatrixAt(nc, _m4);
-      copas.setColorAt(nc++, sauce ? col.setHSL(0.2 + r() * 0.03, 0.42, 0.36 + r() * 0.06) : col.setHSL(0.24 + r() * 0.06, 0.36, 0.2 + r() * 0.1));
+      var th = 3.1 * e, rc = 2.9 * e;
+      _m4.compose(_v.set(x, h + th + rc * 0.55, z), _q, _s.set(rc, rc, rc));
+      robles.setMatrixAt(nr, _m4); robles.setColorAt(nr++, col.setHSL(0.22 + r() * 0.07, 0.36, 0.3 + r() * 0.14));
+      _m4.compose(_v.set(x, h + (th + rc * 0.5) / 2, z), _q, _s.set(1.5 * e, th + rc * 0.5, 1.5 * e)); troncos.setMatrixAt(nt++, _m4);
     }
   }
   for (var x = -165; x < 240; x += 13) {
@@ -889,8 +949,43 @@ var carros = [];
     if (r() > 0.25 + dens * 0.75) continue;
     arbol(px, pz, r() > 0.86 ? 'alamo' : 'roble');
   }
-  troncos.count = nt; copas.count = nc; alamos.count = na;
-  [troncos, copas, alamos].forEach(function (m) { m.castShadow = true; escena.add(m); });
+  troncos.count = nt; robles.count = nr; sauces.count = ns; alamos.count = na;
+  [troncos, robles, sauces, alamos].forEach(function (m) { m.castShadow = true; m.receiveShadow = true; escena.add(m); });
+})();
+
+(function () {
+  var N = esTactil ? 6000 : 20000, r = azar(5), pos = [], nor = [], uv = [], idx = [];
+  [0, Math.PI / 2].forEach(function (a, k) {
+    var c = Math.cos(a) * 0.5, s = Math.sin(a) * 0.5, b = k * 4;
+    pos.push(-c * 0.8, 0, -s * 0.8, c * 0.8, 0, s * 0.8, c * 0.8, 0.4, s * 0.8, -c * 0.8, 0.4, -s * 0.8);
+    nor.push(0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0); uv.push(0, 0, 1, 0, 1, 1, 0, 1);
+    idx.push(b, b + 1, b + 2, b, b + 2, b + 3, b, b + 2, b + 1, b, b + 3, b + 2);
+  });
+  var g = new T.BufferGeometry();
+  g.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal', new T.Float32BufferAttribute(nor, 3));
+  g.setAttribute('uv', new T.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx);
+  var matas = new T.InstancedMesh(g, new T.MeshStandardMaterial({ map: texPasto(), alphaTest: 0.4, roughness: 1 }), N);
+  var n = 0, guarda = 0, cb = { tinte: new T.Color() }, col = new T.Color();
+  while (n < N && guarda++ < N * 10) {
+    var q = r(), x, z;
+    if (q < 0.5) { var a = r() * 6.283, d = 40 + r() * 100; x = Math.cos(a) * d; z = 8 + Math.sin(a) * d; }
+    else if (q < 0.86) { x = 55 + r() * 280; z = (r() * 2 - 1) * 46; }
+    else { x = -160 + r() * 390; z = zEstero(x) + (r() > 0.5 ? 1 : -1) * (7 + r() * 16); }
+    cobertura(x, z, cb);
+    if (cb.tierra > 0.3 || cb.arena > 0.02 || cb.h < 0.8 || cb.d < 6.6) continue;
+    var libre = true;
+    for (var i = 0; i < choques.length; i++) { var c = choques[i]; if (x > c.x0 - 0.3 && x < c.x1 + 0.3 && z > c.z0 - 0.3 && z < c.z1 + 0.3) { libre = false; break; } }
+    if (!libre) continue;
+    var e = 0.7 + r() * 1.2;
+    _e.set(0, r() * 6.283, 0); _q.setFromEuler(_e);
+    _m4.compose(_v.set(x, cb.h - 0.03, z), _q, _s.set(e, e * (0.8 + r() * 0.6), e));
+    matas.setMatrixAt(n, _m4);
+    matas.setColorAt(n++, col.copy(cb.tinte).multiplyScalar(0.95 + r() * 0.4));
+  }
+  matas.count = n; matas.receiveShadow = true;
+  escena.add(matas);
 })();
 
 /* --------------------------------------------------------------------------
@@ -1156,9 +1251,9 @@ function animar() {
     hu.s.scale.set(esc, esc, 1);
     hu.s.material.opacity = 0.5 * Math.sin(Math.PI * Math.min(1, t * 1.15)) * (1 - t * 0.5);
   }
-  texEstero.offset.y = -tiempo * 0.16;
-  texMar.offset.x = Math.sin(tiempo * 0.13) * 0.35; texMar.offset.y = tiempo * 0.012;
-  if (aguaCanal) aguaCanal.material.map.offset.x = -tiempo * 0.5;
+  texEstero.offset.y = -tiempo * 0.09;
+  texMar.offset.x = tiempo * 0.021; texMar.offset.y = tiempo * 0.034;
+  if (aguaCanal) aguaCanal.material.normalMap.offset.x = -tiempo * 0.2;
   for (var r = 0; r < aros.length; r++) aros[r].rotation.y = tiempo * 1.1 + r;
 
   render.render(escena, camara);

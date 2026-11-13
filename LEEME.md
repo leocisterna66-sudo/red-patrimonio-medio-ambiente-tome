@@ -28,6 +28,11 @@ reconstrucción **aproximada** del Molino California hacia 1900. Se abre desde
 la sección Recursos. Funciona en computador, tablet y celular, y no necesita
 conexión: la librería gráfica (three.js) va incluida en `js/vendor/`.
 
+Las texturas fotográficas de los materiales (ladrillo, madera, calamina, tejas,
+pasto, tierra) y el cielo provienen de Poly Haven, de dominio público (CC0), y
+van incrustadas en `js/molino-texturas.js`. Ese archivo se genera de forma
+automática y no se edita a mano.
+
 No se conservan planos del molino. Lo documentado (cuatro pisos de ladrillo,
 ventanales, cuatro paradas de piedra, estero Collén, ferrocarril aéreo de 1896,
 bodegas frente a un muelle propio) proviene de las fuentes citadas en el botón

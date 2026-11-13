@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Molino California, recorrido 3D | Red de Patrimonio y Medio Ambiente de Tomé</title>
+<meta name="description" content="Recorrido en tres dimensiones por una reconstrucción aproximada del Molino California de Tomé hacia 1900: el edificio de ladrillo, el estero Collén, el primer ferrocarril aéreo del país y el muelle.">
+<meta name="author" content="Dirección de Educación, Ilustre Municipalidad de Tomé">
+<meta name="theme-color" content="#1E3F32">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/molino.css">
+<link rel="icon" href="img/insignia.png" type="image/png">
+</head>
+<body>
+
+<canvas id="lienzo" class="lienzo" tabindex="0" aria-label="Vista en tres dimensiones del Molino California. Use las flechas o las teclas W, A, S y D para caminar, y arrastre para mirar."></canvas>
+<div class="grano" aria-hidden="true"></div>
+<div class="velo" id="velo" aria-hidden="true"></div>
+
+<!-- ============================================================
+     BARRA SUPERIOR
+     ============================================================ -->
+<header class="barra">
+  <a class="barra__volver" href="index.html#recursos" aria-label="Volver al sitio de la Red de Patrimonio y Medio Ambiente">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    <span>Red de Patrimonio<span class="solo-ancho"> y Medio Ambiente</span></span>
+  </a>
+  <p class="barra__titulo">Molino California <span>Tomé, hacia 1900</span></p>
+  <div class="barra__acciones">
+    <button type="button" class="boton-hud" id="botonEpoca" aria-pressed="false" title="Ver como una fotografía de la época"><span>Vista de época</span></button>
+    <button type="button" class="boton-hud" id="botonSonido" aria-pressed="true"><span>Sonido</span></button>
+    <button type="button" class="boton-hud" id="botonAyuda" aria-expanded="false" aria-controls="ayuda"><span>Ayuda</span></button>
+  </div>
+</header>
+
+<!-- ============================================================
+     PORTADA DEL RECORRIDO
+     ============================================================ -->
+<main class="portada" id="portada">
+  <div class="portada__panel">
+    <p class="portada__antetitulo">Patrimonio industrial de Tomé</p>
+    <h1 class="portada__titulo">Molino <em>California</em></h1>
+    <p class="portada__bajada">Un recorrido por el barrio hacia 1900, cuando el trigo llegaba en carretas y la harina viajaba al puerto colgada de un cable.</p>
+
+    <dl class="portada__datos">
+      <div><dt>1847</dt><dd>comienza a moler</dd></div>
+      <div><dt>1896</dt><dd>primer ferrocarril aéreo del país</dd></div>
+      <div><dt>1947</dt><dd>cierre definitivo</dd></div>
+    </dl>
+
+    <p class="portada__nota">
+      <strong>Reconstrucción aproximada.</strong> No se conservan planos del molino. El modelo se apoya en
+      descripciones y fotografías de la época; las medidas y varias formas son supuestos. En cada punto
+      de información se distingue lo documentado de lo supuesto.
+    </p>
+
+    <button type="button" class="boton-entrar" id="entrar">Entrar al recorrido</button>
+
+    <p class="portada__controles">
+      <span class="solo-raton">Camine con las flechas o W A S D y arrastre con el ratón para mirar.</span>
+      <span class="solo-tactil">Camine con la palanca y deslice el dedo para mirar.</span>
+    </p>
+  </div>
+</main>
+
+<!-- ============================================================
+     FICHA DE INFORMACIÓN (aparece al acercarse a un aro dorado)
+     ============================================================ -->
+<aside class="ficha" id="ficha" hidden aria-live="polite">
+  <button type="button" class="ficha__cerrar" id="fichaCerrar" aria-label="Cerrar ficha">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+  </button>
+  <h2 class="ficha__titulo" id="fichaTitulo"></h2>
+  <p class="ficha__etiqueta">Lo documentado</p>
+  <p class="ficha__texto" id="fichaDoc"></p>
+  <p class="ficha__etiqueta ficha__etiqueta--supuesto">Lo que el modelo supone</p>
+  <p class="ficha__texto ficha__texto--supuesto" id="fichaSup"></p>
+  <button type="button" class="ficha__accion" id="fichaAccion" hidden>Hacer sonar la bocina</button>
+  <p class="ficha__fuente" id="fichaFuente"></p>
+</aside>
+
+<!-- ============================================================
+     AYUDA
+     ============================================================ -->
+<aside class="ayuda" id="ayuda" hidden>
+  <button type="button" class="ficha__cerrar" id="ayudaCerrar" aria-label="Cerrar ayuda">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+  </button>
+  <h2 class="ficha__titulo">Cómo recorrer</h2>
+  <ul class="ayuda__lista">
+    <li class="solo-raton"><strong>Caminar:</strong> flechas arriba y abajo, o W y S. Con Mayús se camina más rápido.</li>
+    <li class="solo-raton"><strong>Girar:</strong> flechas izquierda y derecha, o arrastrar con el ratón.</li>
+    <li class="solo-tactil"><strong>Caminar:</strong> palanca de la esquina inferior izquierda.</li>
+    <li class="solo-tactil"><strong>Mirar:</strong> deslizar el dedo sobre la imagen.</li>
+    <li><strong>Lugares:</strong> los botones inferiores llevan directo a cada punto.</li>
+    <li><strong>Aros dorados:</strong> al acercarse se abre una ficha con lo que se sabe del lugar.</li>
+    <li><strong>Vista de época:</strong> muestra la escena como una fotografía antigua.</li>
+  </ul>
+  <h3 class="ayuda__subtitulo">Fuentes</h3>
+  <ul class="ayuda__fuentes">
+    <li>Museo Histórico Nacional, Fotografía Patrimonial: «Molino California», 1896 (FB-3458) y 1920 (PFB-737).</li>
+    <li>Rolando Saavedra Villegas, <em>Puerto del Tomé. Antología histórica</em>. Archivo Histórico de Concepción.</li>
+    <li>«Tomé y sus olvidados molinos», BioBioChile, 21 de julio de 2019.</li>
+    <li>«La olvidada industria molinera de Tomé y alrededores», Revista Nos, 2020.</li>
+  </ul>
+</aside>
+
+<!-- ============================================================
+     CONTROLES INFERIORES
+     ============================================================ -->
+<div class="palanca" id="palanca" aria-hidden="true"><div class="palanca__perilla" id="palancaPerilla"></div></div>
+
+<nav class="lugares" aria-label="Lugares del recorrido">
+  <div class="lugares__fila" id="lugares"></div>
+</nav>
+
+<!-- Aviso si el navegador no puede mostrar gráficos 3D -->
+<div class="aviso-webgl">
+  <h1>Molino California</h1>
+  <p>Este navegador no puede mostrar el recorrido en tres dimensiones. Pruebe con una versión reciente de Chrome, Edge, Firefox o Safari.</p>
+  <p><a href="index.html">Volver al sitio de la Red</a></p>
+</div>
+<noscript>
+  <div class="aviso-webgl aviso-webgl--visible">
+    <h1>Molino California</h1>
+    <p>El recorrido necesita JavaScript para funcionar.</p>
+    <p><a href="index.html">Volver al sitio de la Red</a></p>
+  </div>
+</noscript>
+
+<script src="js/vendor/three.min.js"></script>
+<script src="js/molino3d.js"></script>
+</body>
+</html>

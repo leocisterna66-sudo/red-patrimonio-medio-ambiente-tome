@@ -8,6 +8,7 @@ dependiente de la Dirección de Educación de la Ilustre Municipalidad de Tomé.
 ```
 /
 ├── index.html            Página completa (una sola página con anclas)
+├── molino-california.html  Recorrido 3D del Molino California (ver más abajo)
 ├── agregar-noticia.html  Asistente interno: pestañas "Nueva noticia" y "Nueva actividad"
 ├── SUBIR-CAMBIOS.bat     Publica los cambios a internet con doble clic
 ├── css/estilos.css       Hoja de estilos única
@@ -19,6 +20,28 @@ dependiente de la Dirección de Educación de la Ilustre Municipalidad de Tomé.
 └── img/                  Imágenes del sitio (ver más abajo)
     └── originales/       Fotografías sin recortar, por si se necesita otro encuadre
 ```
+
+## El recorrido 3D del Molino California
+
+`molino-california.html` es un recorrido en tres dimensiones por una
+reconstrucción **aproximada** del Molino California hacia 1900. Se abre desde
+la sección Recursos. Funciona en computador, tablet y celular, y no necesita
+conexión: la librería gráfica (three.js) va incluida en `js/vendor/`.
+
+No se conservan planos del molino. Lo documentado (cuatro pisos de ladrillo,
+ventanales, cuatro paradas de piedra, estero Collén, ferrocarril aéreo de 1896,
+bodegas frente a un muelle propio) proviene de las fuentes citadas en el botón
+Ayuda de la página. Las medidas y varias formas son supuestos, y cada ficha del
+recorrido lo indica.
+
+Todo se edita al comienzo de `js/molino3d.js`:
+
+- `FICHAS`: textos de los puntos de información (lo documentado, lo supuesto y la fuente).
+- `LUGARES`: botones inferiores que llevan a cada punto.
+- `MOLINO`: medidas supuestas del edificio, en metros.
+
+Si aparecen fotografías o planos que corrijan un supuesto, basta ajustar esos
+valores y el texto de la ficha correspondiente.
 
 ## El carrusel de portada
 
